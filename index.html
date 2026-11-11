@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Gloock&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=5" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
   <script>/* honour reduced motion; ?motion=1 forces full motion for demos */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=1/.test(location.search)) document.documentElement.classList.add('rm');</script>
 </head>
@@ -95,27 +95,69 @@
 
     <!-- ============ ABOUT ============ -->
     <section class="about" id="about">
-      <div class="cloud-edge cloud-edge--top" data-clouds="cream" aria-hidden="true"></div>
+      <img class="about__edge" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
+      <img class="about__edge about__edge--flip" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
+      <img class="about__edge about__edge--mid" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
+      <div class="about__seam" aria-hidden="true"></div>
+
+      <!-- painted diorama: each piece flies in from its edge as the section arrives (data-from = vw,vh), then drifts (data-drift) -->
+      <div class="diorama" aria-hidden="true">
+        <img class="pc pc--skyline" src="assets/skyline.webp" alt="" data-from="0,10" data-drift="-0.10" loading="lazy" />
+        <div class="pc pc--pavilion" data-from="18,14" data-drift="-0.05">
+          <div class="pavilion__glow"></div>
+          <img src="assets/pavilion.webp" alt="" loading="lazy" />
+          <span class="note" style="--x:32%;--d:0s">♪</span><span class="note" style="--x:46%;--d:1.4s">♫</span><span class="note" style="--x:58%;--d:2.6s">♪</span>
+        </div>
+        <img class="pc pc--pillar" src="assets/pillar.webp" alt="" data-from="-30,0" data-drift="0.04" loading="lazy" />
+        <div class="pc pc--branch" data-from="24,-22" data-drift="0.10">
+          <img src="assets/branch.webp" alt="" loading="lazy" />
+          <div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="pc pc--sitar" data-from="-16,16" data-drift="0.07">
+          <img src="assets/sitar.webp" alt="" loading="lazy" />
+          <span class="flame" style="left:78%;top:52%"></span>
+        </div>
+        <div class="pc pc--tlantern" data-from="-10,20" data-drift="0.12">
+          <img src="assets/table-lantern.webp" alt="" loading="lazy" />
+        </div>
+      </div>
+
       <div class="about__inner wrap">
-        <div class="about__text reveal">
-          <p class="eyebrow eyebrow--ruby">About the Festival</p>
-          <h2 class="h2">A celebration of culture, creativity &amp; community</h2>
-          <p class="lede">Effervescence is IIIT Allahabad’s annual cultural festival — a stage for art, music, dance, literature and a wide spectrum of student-led events. For three nights the campus turns into a city of lanterns.</p>
-          <dl class="stats">
+        <div class="about__text">
+          <p class="eyebrow-orn reveal"><img src="assets/divider-eyebrow.svg" alt="" aria-hidden="true" /><span>About the Festival</span></p>
+          <h2 class="h2 about__title split">A Celebration of Culture, Creativity and Community</h2>
+          <img class="about__rule reveal" src="assets/divider-rule-short.svg" alt="" aria-hidden="true" />
+          <p class="lede reveal">Effervescence is IIIT Allahabad’s annual cultural festival, a platform for art, music, dance, literature and a wide spectrum of student-led events. For three nights the campus turns into a city of lanterns.</p>
+          <dl class="stats reveal">
             <div><dt data-count="3">0</dt><dd>Nights</dd></div>
             <div><dt data-count="40" data-suffix="+">0</dt><dd>Events</dd></div>
             <div><dt data-count="12" data-suffix="k+">0</dt><dd>Footfall</dd></div>
           </dl>
         </div>
-        <figure class="about__window reveal" aria-label="An illustrated pavilion where musicians play under lanterns">
-          <div class="window">
-            <div class="window__sky" data-speed="-0.06"></div>
-            <div class="window__layer" data-speed="-0.12" data-scene-inline="pavilion"></div>
-            <div class="window__layer window__layer--clouds" data-speed="0.05" data-clouds="lav-small"></div>
-            <div class="window__layer window__layer--blossom" data-speed="0.16" data-scene-inline="blossom"></div>
-          </div>
-          <div class="window__lantern" aria-hidden="true"></div>
-        </figure>
+      </div>
+
+      <!-- three pillars -->
+      <div class="pillars">
+        <img class="pillars__bush pillars__bush--l" src="assets/bush-l.webp" alt="" aria-hidden="true" data-speed="0.08" loading="lazy" />
+        <img class="pillars__bush pillars__bush--r" src="assets/bush-r.webp" alt="" aria-hidden="true" data-speed="0.12" loading="lazy" />
+        <div class="wrap pillars__row">
+          <a class="pillar reveal" href="#events" style="--i:0">
+            <span class="pillar__icon"><img src="assets/icons/icon-theatre-masks.svg" alt="" /></span>
+            <h3>Showcases</h3>
+            <p>Performances, plays and stage productions</p>
+          </a>
+          <a class="pillar reveal" href="#events" style="--i:1">
+            <span class="pillar__icon"><img src="assets/icons/icon-music-note.svg" alt="" /></span>
+            <h3>Competitions</h3>
+            <p>Events across music, dance, literature and fine arts</p>
+          </a>
+          <a class="pillar reveal" href="#map" style="--i:2">
+            <span class="pillar__icon"><img src="assets/icons/icon-community.svg" alt="" /></span>
+            <h3>Campus Life</h3>
+            <p>A festival for and by the IIIT Allahabad community</p>
+          </a>
+        </div>
+        <img class="pillars__strip" src="assets/cloudstrip.webp" alt="" aria-hidden="true" loading="lazy" />
       </div>
       <div class="marquee" aria-hidden="true">
         <div class="marquee__track">
@@ -222,7 +264,8 @@
 
     <!-- ============ MAP ============ -->
     <section class="mapsec" id="map">
-      <div class="cloud-edge cloud-edge--top" data-clouds="cream" aria-hidden="true"></div>
+      <img class="paint-edge paint-edge--l" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" loading="lazy" />
+      <img class="paint-edge paint-edge--r" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" loading="lazy" />
       <div class="wrap mapsec__inner">
         <div class="mapsec__text reveal">
           <p class="eyebrow eyebrow--ruby">Explore the Campus</p>
@@ -269,7 +312,7 @@
     <!-- ============ WISH ============ -->
     <section class="wish" id="wish">
       <canvas class="wish__sky" aria-hidden="true"></canvas>
-      <div class="wish__branch" data-speed="0.1" data-scene-inline="blossom-wide" aria-hidden="true"></div>
+      <div class="wish__branch" data-speed="0.1" aria-hidden="true"><img src="assets/branch.webp" alt="" loading="lazy" /></div>
       <div class="wrap wish__inner">
         <div class="wish__text reveal">
           <p class="eyebrow">Make a Wish</p>
@@ -327,7 +370,7 @@
   </footer>
 
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="js/scene.js?v=5"></script>
-  <script src="js/main.js?v=5"></script>
+  <script src="js/scene.js?v=6"></script>
+  <script src="js/main.js?v=7"></script>
 </body>
 </html>

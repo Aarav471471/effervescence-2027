@@ -37,14 +37,6 @@
     lit: { label: 'Literature', c1: '#2c6e74', c2: '#f1c46a', icon: '<path d="M42 5C27 7 15 19 10 37l4 2c2-5 5-10 9-14l7 2-3-6c5-5 10-10 15-16z"/><path d="M6 43h22" stroke="currentColor" stroke-width="3"/>' },
     arts: { label: 'Fine Arts', c1: '#7b3fa0', c2: '#f1c46a', icon: '<path fill-rule="evenodd" d="M24 5C12 5 4 13 4 24s8 19 17 19c4 0 5-4 3-6s0-6 4-6h6c8 0 12-4 12-10C46 11 37 5 24 5zm-11 18a3 3 0 1 0 0 .1zm7-8a3 3 0 1 0 0 .1zm10 0a3 3 0 1 0 0 .1zm7 8a3 3 0 1 0 0 .1z"/>' }
   };
-  const PLACES = [
-    { n: 1, name: 'Main Stage', note: 'Pronites & headliners', x: 50, y: 30 },
-    { n: 2, name: 'Food Lanes', note: 'Chaat, chai, everything', x: 24, y: 59 },
-    { n: 3, name: 'CC3 Complex', note: 'Competitions & workshops', x: 77.5, y: 53.5 },
-    { n: 4, name: 'Lantern Lawns', note: 'Open-air gatherings', x: 52.5, y: 70 },
-    { n: 5, name: 'Info Desk & Entry', note: 'Passes and help', x: 16, y: 86 },
-    { n: 6, name: 'Bazaar', note: 'Stalls & merch', x: 81, y: 84 }
-  ];
   const SEED_WISHES = [
     'A wish for endless music and memories.',
     'Success for all the performers!',
@@ -200,61 +192,44 @@
   }
 
   /* ------------------------------------------------------------------
-     6. Campus map (illustrated SVG, generated)
+     6. Campus map — the map app lives in map/ and loads in an iframe
+        as its scroll unrolls. A cover stops it from trapping page scroll
+        until the visitor chooses to explore.
      ------------------------------------------------------------------ */
-  (function buildMap() {
-    const r = S.rng(77);
-    let s = '';
-    s += `<rect x="14" y="14" width="772" height="532" fill="none" stroke="#b67a2c" stroke-width="3"/><rect x="22" y="22" width="756" height="516" fill="none" stroke="#b67a2c" stroke-width="1" stroke-dasharray="2 6"/>`;
-    s += `<path d="M30 250 C200 228 260 268 400 250 S640 220 770 248" fill="none" stroke="#7aa6c4" stroke-width="16" stroke-linecap="round" opacity=".8"/>`;
-    s += `<path d="M30 250 C200 228 260 268 400 250 S640 220 770 248" fill="none" stroke="#cfe3ee" stroke-width="2" stroke-dasharray="10 14" opacity=".9"/>`;
-    const lawn = (cx, cy, rx, ry) => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#a9b86c" stroke="#7d8c47" stroke-width="2"/>`;
-    s += lawn(420, 392, 120, 58) + lawn(650, 470, 90, 44) + lawn(190, 330, 90, 46) + lawn(400, 170, 150, 70);
-    const paths = ['M128 482 Q260 430 420 392 T650 470', 'M420 392 Q410 280 400 172', 'M190 330 Q300 300 420 392', 'M620 300 Q520 340 420 392', 'M620 300 Q560 200 400 172'];
-    paths.forEach((d) => { s += `<path d="${d}" fill="none" stroke="#e7cf98" stroke-width="22" stroke-linecap="round"/>`; });
-    paths.forEach((d) => { s += `<path d="${d}" fill="none" stroke="#b9945a" stroke-width="2" stroke-dasharray="4 8" stroke-linecap="round"/>`; });
-    // trees, kept clear of venues
-    for (let i = 0; i < 80; i++) {
-      const x = 40 + r() * 720, y = 40 + r() * 480;
-      if (x < 300 && y < 90) continue;
-      if (PLACES.some((p) => Math.hypot(p.x * 8 - x, p.y * 5.6 - y) < 80)) continue;
-      if (Math.abs(y - (250 + Math.sin(x / 120) * 10)) < 18) continue;
-      const R = 7 + r() * 7;
-      s += `<circle cx="${x.toFixed(1)}" cy="${(y + 3).toFixed(1)}" r="${R.toFixed(1)}" fill="#3e5a3a" opacity=".35"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${R.toFixed(1)}" fill="${r() > .5 ? '#4f7a4a' : '#5f8a52'}"/>`;
-    }
-    const box = (x, y, w, h, d, wall = '#f0c27a', roof = '#c4473d') =>
-      `<path d="M${x} ${y} h${w} l${d} -${d * .6} h-${w} z" fill="${roof}"/>` +
-      `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${wall}" stroke="#8e5a1e" stroke-width="1.5"/>` +
-      `<path d="M${x + w} ${y} l${d} -${d * .6} v${h} l-${d} ${d * .6} z" fill="#c98b48" stroke="#8e5a1e" stroke-width="1.5"/>`;
-    // main stage palace
-    s += box(340, 150, 120, 50, 26) + `<path d="${S.dome(400, 150, 70, 60)}" fill="#2c4aa3" stroke="#e8b45a" stroke-width="2"/>`;
-    s += `<path d="${S.arch(384, 166, 32, 34)}" fill="#ffc85e"/>`;
-    // CC3
-    s += box(580, 282, 90, 46, 22, '#f2d29a', '#2c4aa3') + box(600, 250, 50, 32, 16, '#f2d29a', '#2c4aa3');
-    // food stalls
-    for (let i = 0; i < 3; i++) s += `<rect x="${150 + i * 30}" y="318" width="24" height="20" fill="#f6e7c9" stroke="#8e5a1e"/><path d="M${148 + i * 30} 318 h28 l-4 -12 h-20z" fill="${['#a8322d', '#e8b45a', '#2c6e74'][i]}"/>`;
-    // fountain on the lawns
-    s += `<circle cx="420" cy="392" r="22" fill="#cfe3ee" stroke="#7aa6c4" stroke-width="3"/><circle cx="420" cy="392" r="8" fill="#7aa6c4"/>`;
-    // bazaar tents
-    for (let i = 0; i < 4; i++) s += `<path d="M${612 + i * 22} 482 l11 -22 l11 22z" fill="${i % 2 ? '#a8322d' : '#e8b45a'}" stroke="#6e1a1d"/>`;
-    // gate
-    s += `<path d="M104 500 V462 Q128 436 152 462 V500 h-10 V468 Q128 452 114 468 V500z" fill="#c4473d" stroke="#8e5a1e" stroke-width="1.5"/>`;
-    s += `<text x="60" y="66" font-family="Cinzel" font-size="18" fill="#6e1a1d" letter-spacing="3">IIIT ALLAHABAD</text>`;
-    $('#mapArt').innerHTML = s;
-
-    const pinSvg = '<svg viewBox="0 0 38 46"><path d="M19 45C19 45 3 28 3 17a16 16 0 0 1 32 0c0 11-16 28-16 28z" fill="#a8322d" stroke="#ffd98c" stroke-width="2.5"/></svg>';
-    $('#pins').innerHTML = PLACES.map((p, i) => `<button class="pin" style="--x:${p.x}%;--y:${p.y}%;--i:${i}" data-n="${p.n}" aria-label="${p.name}">${pinSvg}<span>${p.n}</span><em class="pin__tip">${p.name}</em></button>`).join('');
-    $('#places').innerHTML = PLACES.map((p) => `<li><button data-n="${p.n}"><span class="dot">${p.n}</span><span><strong>${p.name}</strong><small>${p.note}</small></span></button></li>`).join('');
-    const paper = $('.scrollmap__paper');
-    const setH = () => $('#scrollmap').style.setProperty('--h', paper.offsetHeight + 'px');
+  (function campusMap() {
+    const box = $('#scrollmap'), paper = $('.scrollmap__paper'), frame = $('#mapFrame');
+    const cover = $('#mapCover'), lock = $('#mapLock');
+    const setH = () => box.style.setProperty('--h', paper.offsetHeight + 'px');
     setH(); addEventListener('resize', setH);
-    const hl = (n) => $$('#pins .pin, #places button').forEach((b) => b.classList.toggle('is-on', b.dataset.n === String(n)));
-    $$('#pins .pin, #places button').forEach((b) => {
-      b.addEventListener('mouseenter', () => hl(b.dataset.n));
-      b.addEventListener('focus', () => hl(b.dataset.n));
-      b.addEventListener('click', () => hl(b.dataset.n));
-      b.addEventListener('mouseleave', () => hl(null));
+
+    let loaded = false, ready = false, pending = null;
+    const load = () => { if (loaded) return; loaded = true; frame.src = frame.dataset.src; };
+    const send = (id) => frame.contentWindow.postMessage({ type: 'effe:place', id }, location.origin);
+    frame.addEventListener('load', () => {
+      // let the map finish inking itself before the carpet sets off
+      setTimeout(() => { ready = true; if (pending) { send(pending); pending = null; } }, 1400);
     });
+    const near = new IntersectionObserver((en) => {
+      if (en.some((e) => e.isIntersecting)) { load(); near.disconnect(); }
+    }, { rootMargin: '80% 0px' });
+    near.observe(box);
+
+    const unlock = () => { box.classList.add('is-live'); cover.hidden = true; lock.hidden = false; };
+    const relock = () => { box.classList.remove('is-live'); cover.hidden = false; lock.hidden = true; };
+    cover.addEventListener('click', () => { load(); unlock(); frame.focus(); });
+    lock.addEventListener('click', () => { relock(); cover.focus(); });
+    new IntersectionObserver((en) => en.forEach((e) => { if (!e.isIntersecting) relock(); })).observe(box);
+
+    $$('#jumps [data-place]').forEach((btn) => btn.addEventListener('click', () => {
+      $$('#jumps [data-place]').forEach((x) => x.setAttribute('aria-pressed', String(x === btn)));
+      load(); unlock();
+      if (ready) send(btn.dataset.place); else pending = btn.dataset.place;
+      const r = box.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > innerHeight) {
+        if (lenis) lenis.scrollTo(box, { offset: -90, duration: 1.2 });
+        else box.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+      }
+    }));
   })();
 
   /* ------------------------------------------------------------------

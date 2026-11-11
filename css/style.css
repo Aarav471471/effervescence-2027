@@ -418,17 +418,6 @@ button { font: inherit; cursor: pointer; }
    MAP
    ========================================================================== */
 .mapsec { position: relative; background: var(--paper) var(--paper-tex); padding: clamp(80px, 10vw, 130px) 0; }
-.mapsec__inner { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 5vw, 70px); align-items: center; }
-.places { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-.places button {
-  width: 100%; display: flex; align-items: center; gap: 12px; text-align: left;
-  border: 0; background: transparent; padding: 10px 12px; border-radius: 12px; color: var(--ink);
-  transition: background .3s, transform .3s var(--ease-out);
-}
-.places button:hover, .places button.is-on { background: rgba(232, 180, 90, .25); transform: translateX(6px); }
-.places .dot { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--ruby); color: var(--gold-light); font: 600 .8rem/1 var(--caps); flex: none; box-shadow: inset 0 0 0 2px var(--gold); }
-.places strong { display: block; font-weight: 600; }
-.places small { color: var(--ink-soft); }
 
 .scrollmap { position: relative; }
 .scrollmap__rod { height: 22px; border-radius: 11px; background: linear-gradient(180deg, #a7652a, #5a3214); position: relative; z-index: 2; margin: 0 -14px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .5); }
@@ -445,26 +434,6 @@ button { font: inherit; cursor: pointer; }
 }
 .scrollmap.in .scrollmap__paper { clip-path: inset(0 0 0 0); }
 .scrollmap.in { transform: none; }
-.scrollmap__art { width: 100%; height: auto; }
-.pins { position: absolute; inset: 0; }
-.pin {
-  position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -100%);
-  border: 0; padding: 0; background: none; width: 38px; height: 46px;
-  opacity: 0; transition: opacity .5s, transform .4s var(--ease-out);
-}
-.scrollmap.in .pin { opacity: 1; transition-delay: calc(1.4s + var(--i) * 100ms); }
-.pin svg { width: 100%; height: 100%; filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .35)); }
-.pin span { position: absolute; left: 50%; top: 9px; transform: translateX(-50%); font: 700 .78rem/1 var(--caps); color: var(--gold-light); }
-.pin:hover, .pin.is-on { transform: translate(-50%, -112%) scale(1.15); z-index: 2; }
-.pin__tip {
-  position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translate(-50%, 6px); white-space: nowrap;
-  background: var(--night); color: var(--paper); font: 600 .8rem/1 var(--body); padding: 8px 12px; border-radius: 8px;
-  opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s;
-  box-shadow: inset 0 0 0 1px var(--gold);
-}
-.pin:hover .pin__tip, .pin.is-on .pin__tip, .pin:focus-visible .pin__tip { opacity: 1; transform: translate(-50%, 0); }
-.compass { position: absolute; right: 4%; bottom: 4%; font-size: 2.4rem; color: var(--gold-deep); animation: spin 30s linear infinite; }
-@keyframes spin { to { rotate: 360deg; } }
 
 /* ==========================================================================
    GALLERY
@@ -576,7 +545,7 @@ button { font: inherit; cursor: pointer; }
   .nav__burger { margin-left: 0; }
   .nav.is-open { border-radius: 26px; flex-wrap: wrap; background: rgba(246, 231, 201, .97); color: var(--ink); }
   .nav.is-open .nav__links { display: flex; flex-direction: column; width: 100%; order: 5; padding: 8px 0 6px; }
-  .about__inner, .mapsec__inner, .wish__inner { grid-template-columns: 1fr; }
+  .about__inner, .wish__inner { grid-template-columns: 1fr; }
   .about__window { max-width: 440px; margin-inline: auto; width: 100%; }
   .events__layout { grid-template-columns: 1fr; }
   .stage { position: relative; top: 0; max-width: 420px; margin-inline: auto; width: 100%; }
@@ -627,3 +596,41 @@ button { font: inherit; cursor: pointer; }
 .journey__near { display: flex; align-items: flex-end; width: 340vw; height: auto; bottom: -7vh; }
 .jn { flex: none; width: max(64vw, 70vh); max-width: none; margin-right: -4vw; height: auto; }
 .jn--flip { transform: scaleX(-1); }
+
+/* campus map (map/index.html embedded) */
+.mapsec__head { display: grid; grid-template-columns: 1fr minmax(280px, 440px); gap: clamp(24px, 4vw, 60px); align-items: end; margin-bottom: clamp(28px, 4vw, 44px); }
+.mapsec__text .lede { margin-bottom: 0; }
+.mapsec__jumplabel { font: 600 .72rem/1 var(--caps); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 12px; }
+.jumps { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.jumps button {
+  border: 1.5px solid rgba(182, 122, 44, .6); background: rgba(255, 255, 255, .35); color: var(--ink);
+  font: 600 .86rem/1 var(--body); padding: 9px 14px; border-radius: 999px;
+  transition: background .3s, color .3s, transform .3s var(--ease-out), border-color .3s;
+}
+.jumps button:hover { background: rgba(232, 180, 90, .3); transform: translateY(-2px); }
+.jumps button[aria-pressed="true"] { background: var(--ruby); border-color: var(--ruby-deep); color: #fff6e3; }
+.scrollmap__paper { aspect-ratio: 16 / 10; background: #141f52; box-shadow: inset 0 0 0 3px var(--gold), inset 0 0 40px rgba(0, 0, 0, .4); }
+.scrollmap__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; pointer-events: none; background: #0a1133; }
+.scrollmap.is-live .scrollmap__frame { pointer-events: auto; }
+.scrollmap__cover {
+  position: absolute; inset: 0; z-index: 2; border: 0; padding: 0; cursor: pointer;
+  display: grid; place-content: center; justify-items: center; gap: 10px; color: var(--paper);
+  background: radial-gradient(60% 50% at 50% 50%, rgba(10, 17, 51, .55), rgba(10, 17, 51, .15) 70%, transparent);
+  transition: background .4s;
+}
+.scrollmap__cover:hover { background: radial-gradient(60% 50% at 50% 50%, rgba(10, 17, 51, .7), rgba(10, 17, 51, .25) 70%, transparent); }
+.scrollmap__cover[hidden] { display: none; }
+.scrollmap__coverbtn {
+  font: 600 1rem/1 var(--body); padding: 15px 28px; border-radius: 999px; color: #fff6e3;
+  background: var(--ruby); box-shadow: inset 0 0 0 2px rgba(255, 217, 140, .55), 0 14px 30px -10px rgba(0, 0, 0, .7);
+  transition: transform .4s var(--ease-out);
+}
+.scrollmap__cover:hover .scrollmap__coverbtn { transform: translateY(-2px) scale(1.03); }
+.scrollmap__cover small { font: 600 .7rem/1 var(--caps); letter-spacing: .2em; text-transform: uppercase; text-shadow: 0 2px 8px rgba(0, 0, 0, .8); }
+.scrollmap__lock {
+  position: absolute; z-index: 3; left: 12px; bottom: 12px; border: 1.5px solid var(--gold); border-radius: 999px;
+  background: rgba(10, 17, 51, .88); color: var(--gold-light); font: 600 .78rem/1 var(--body); padding: 9px 14px;
+}
+.scrollmap__lock:hover { background: var(--ruby); }
+@media (max-width: 960px) { .mapsec__head { grid-template-columns: 1fr; align-items: start; } }
+@media (max-width: 600px) { .scrollmap__paper { aspect-ratio: 1 / 1.12; } .scrollmap__rod { margin: 0 -4px; } .window__lantern { right: 0; } }

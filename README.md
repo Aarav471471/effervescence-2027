@@ -29,13 +29,21 @@ The schedule is a pinned horizontal scroll; the carpet follows `#flightPath`.
 | What | Where |
 |---|---|
 | Events, categories, colours | `EVENTS` / `CAT` at the top of `js/main.js` |
-| Campus map places (x/y in %) | `PLACES` in `js/main.js` |
+| Campus map places (48, with x/y and descriptions) | `PLACES` in `map/index.html` |
+| "Jump to" chips on the landing page | `#jumps` buttons in `index.html` (`data-place` = a place id from `map/index.html`) |
 | Seed wishes | `SEED_WISHES` in `js/main.js` |
 | Schedule, copy, stats | `index.html` |
 | Colours, fonts | `:root` in `css/style.css` |
 
 Event names, schedule times and stats are **placeholders**. Gallery frames show "Photo coming soon":
 put real photos in as `<img>` inside `.gframe__img`.
+
+## Campus map
+
+`map/` is the interactive atlas as its own page (full screen at `/map/`, deep links like `/map/#sac`).
+The landing page embeds it in the unrolling scroll as `map/?embed=1`, loaded only as the section approaches.
+A cover keeps page scrolling free until the visitor taps to explore; the chips send the carpet to a place
+with `postMessage({ type: 'effe:place', id })`.
 
 ## Not wired up yet
 

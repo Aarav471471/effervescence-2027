@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Gloock&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=5" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
   <script>/* honour reduced motion; ?motion=1 forces full motion for demos */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=1/.test(location.search)) document.documentElement.classList.add('rm');</script>
 </head>
@@ -223,19 +223,37 @@
     <!-- ============ MAP ============ -->
     <section class="mapsec" id="map">
       <div class="cloud-edge cloud-edge--top" data-clouds="cream" aria-hidden="true"></div>
-      <div class="wrap mapsec__inner">
-        <div class="mapsec__text reveal">
-          <p class="eyebrow eyebrow--ruby">Explore the Campus</p>
-          <h2 class="h2">Find your way through the magic</h2>
-          <p class="lede">Every venue, food lane and lantern lawn. Hover a place to find it on the map.</p>
-          <ul class="places" id="places"></ul>
+      <div class="wrap">
+        <div class="mapsec__head">
+          <div class="mapsec__text reveal">
+            <p class="eyebrow eyebrow--ruby">Explore the Campus</p>
+            <h2 class="h2">Find your way through the magic</h2>
+            <p class="lede">The whole of IIIT Allahabad, inked as a fantasy atlas. Pick a place and the carpet flies you there.</p>
+          </div>
+          <div class="mapsec__jump reveal">
+            <p class="mapsec__jumplabel">Jump to</p>
+            <div class="jumps" id="jumps">
+              <button type="button" data-place="g2">Main Gate</button>
+              <button type="button" data-place="sac">SAC</button>
+              <button type="button" data-place="aud">Auditorium</button>
+              <button type="button" data-place="foot">Football Ground</button>
+              <button type="button" data-place="caf">Cafeteria</button>
+              <button type="button" data-place="clock">Clock Tower</button>
+              <button type="button" data-place="lib">Library</button>
+            </div>
+            <a class="btn btn--ruby btn--sm" href="map/">Open full map &rarr;</a>
+          </div>
         </div>
         <div class="scrollmap reveal" id="scrollmap">
           <div class="scrollmap__rod scrollmap__rod--top" aria-hidden="true"></div>
           <div class="scrollmap__paper">
-            <svg class="scrollmap__art" viewBox="0 0 800 560" aria-hidden="true" id="mapArt"></svg>
-            <div class="pins" id="pins"></div>
-            <div class="compass" data-speed="0.04" aria-hidden="true">✦</div>
+            <!-- the map app (map/index.html) loads as the scroll comes into view -->
+            <iframe class="scrollmap__frame" id="mapFrame" title="Interactive campus map of IIIT Allahabad" data-src="map/?embed=1" loading="lazy"></iframe>
+            <button class="scrollmap__cover" id="mapCover" type="button">
+              <span class="scrollmap__coverbtn">Tap to explore the map</span>
+              <small>Drag to move · pinch or scroll to zoom</small>
+            </button>
+            <button class="scrollmap__lock" id="mapLock" type="button" hidden>Done exploring</button>
           </div>
           <div class="scrollmap__rod scrollmap__rod--bottom" aria-hidden="true"></div>
         </div>
@@ -327,7 +345,7 @@
   </footer>
 
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="js/scene.js?v=5"></script>
-  <script src="js/main.js?v=5"></script>
+  <script src="js/scene.js?v=7"></script>
+  <script src="js/main.js?v=7"></script>
 </body>
 </html>

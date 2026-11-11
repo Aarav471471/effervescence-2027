@@ -31,11 +31,11 @@
     { cat: 'arts', name: 'Canvas', kind: 'Live Painting', desc: 'Three hours, one prompt, a blank canvas.' }
   ];
   const CAT = {
-    music: { label: 'Music', c1: '#a8322d', c2: '#f1c46a', icon: '<path d="M18 36a6 6 0 1 1-3-5.2V10l20-5v24a6 6 0 1 1-3-5.2V13.5l-14 3.5z"/>' },
+    music: { mask: 'icon-music-note', label: 'Music', c1: '#a8322d', c2: '#f1c46a', icon: '<path d="M18 36a6 6 0 1 1-3-5.2V10l20-5v24a6 6 0 1 1-3-5.2V13.5l-14 3.5z"/>' },
     dance: { label: 'Dance', c1: '#2c4aa3', c2: '#f1c46a', icon: '<path d="M6 14c12-7 24-7 36 0" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="13" cy="25" r="6"/><circle cx="24" cy="30" r="6"/><circle cx="35" cy="25" r="6"/><path d="M13 13v6M24 12v12M35 13v6" stroke="currentColor" stroke-width="2"/>' },
-    drama: { label: 'Dramatics', c1: '#6e1a1d', c2: '#e8b45a', icon: '<path fill-rule="evenodd" d="M8 8h32v12c0 11-7 20-16 20S8 31 8 20zm7 8a3.5 2.5 0 1 0 7 0 3.5 2.5 0 1 0-7 0zm11 0a3.5 2.5 0 1 0 7 0 3.5 2.5 0 1 0-7 0zm-9 12q7 7 14 0q-7 3-14 0z"/>' },
-    lit: { label: 'Literature', c1: '#2c6e74', c2: '#f1c46a', icon: '<path d="M42 5C27 7 15 19 10 37l4 2c2-5 5-10 9-14l7 2-3-6c5-5 10-10 15-16z"/><path d="M6 43h22" stroke="currentColor" stroke-width="3"/>' },
-    arts: { label: 'Fine Arts', c1: '#7b3fa0', c2: '#f1c46a', icon: '<path fill-rule="evenodd" d="M24 5C12 5 4 13 4 24s8 19 17 19c4 0 5-4 3-6s0-6 4-6h6c8 0 12-4 12-10C46 11 37 5 24 5zm-11 18a3 3 0 1 0 0 .1zm7-8a3 3 0 1 0 0 .1zm10 0a3 3 0 1 0 0 .1zm7 8a3 3 0 1 0 0 .1z"/>' }
+    drama: { mask: 'icon-theatre-masks', label: 'Dramatics', c1: '#6e1a1d', c2: '#e8b45a', icon: '<path fill-rule="evenodd" d="M8 8h32v12c0 11-7 20-16 20S8 31 8 20zm7 8a3.5 2.5 0 1 0 7 0 3.5 2.5 0 1 0-7 0zm11 0a3.5 2.5 0 1 0 7 0 3.5 2.5 0 1 0-7 0zm-9 12q7 7 14 0q-7 3-14 0z"/>' },
+    lit: { mask: 'icon-quill-literature', label: 'Literature', c1: '#2c6e74', c2: '#f1c46a', icon: '<path d="M42 5C27 7 15 19 10 37l4 2c2-5 5-10 9-14l7 2-3-6c5-5 10-10 15-16z"/><path d="M6 43h22" stroke="currentColor" stroke-width="3"/>' },
+    arts: { mask: 'icon-palette-fine-arts', label: 'Fine Arts', c1: '#7b3fa0', c2: '#f1c46a', icon: '<path fill-rule="evenodd" d="M24 5C12 5 4 13 4 24s8 19 17 19c4 0 5-4 3-6s0-6 4-6h6c8 0 12-4 12-10C46 11 37 5 24 5zm-11 18a3 3 0 1 0 0 .1zm7-8a3 3 0 1 0 0 .1zm10 0a3 3 0 1 0 0 .1zm7 8a3 3 0 1 0 0 .1z"/>' }
   };
   const SEED_WISHES = [
     'A wish for endless music and memories.',
@@ -74,7 +74,6 @@
   // painted assets (assets/*.webp) — the SVG generators remain as fallbacks for the smaller scenes
   const img = (src, cls = '', lazy = true) => `<img src="assets/${src}" alt="" class="${cls}" ${lazy ? 'loading="lazy"' : ''} decoding="async" />`;
   $$('.hero .lantern').forEach((el, i) => { el.innerHTML = img(i % 3 ? 'lantern-b.webp' : 'lantern-a.webp', '', false); });
-  $$('.window__lantern').forEach((el) => { el.innerHTML = img('lantern-a.webp'); });
   $('.journey__far').innerHTML = img('citadel.webp', 'jf jf--citadel') + img('palace.webp', 'jf jf--palace') + img('citadel.webp', 'jf jf--citadel2');
   $('.journey__near').innerHTML = img('cloudbank.webp', 'jn') + img('cloudbank.webp', 'jn jn--flip') + img('cloudbank.webp', 'jn');
   $('.carpet').innerHTML = img('carpet.webp', '', false);
@@ -118,6 +117,10 @@
   /* ------------------------------------------------------------------
      4. Reveal-on-scroll + counters + curtains + map unroll
      ------------------------------------------------------------------ */
+  $$('.split').forEach((el) => {
+    let i = 0;
+    el.innerHTML = el.textContent.trim().split(/\s+/).map((w) => `<span class="w"><span style="--i:${i++}">${w}</span></span>`).join(' ');
+  });
   const revealIO = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
@@ -126,7 +129,7 @@
       $$('[data-count]', en.target).forEach(countUp);
     });
   }, { threshold: .18 });
-  $$('.reveal').forEach((el) => revealIO.observe(el));
+  $$('.reveal, .split').forEach((el) => revealIO.observe(el));
   function countUp(el) {
     const end = +el.dataset.count, suf = el.dataset.suffix || '';
     if (reduced) { el.textContent = end + suf; return; }
@@ -149,7 +152,7 @@
       return `<article class="card" style="--i:${i};--c1:${c.c1};--c2:${c.c2}">
         <div class="card__canopy" aria-hidden="true"></div>
         <div class="card__body">
-          <svg class="card__icon" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">${c.icon}</svg>
+          ${c.mask ? `<span class="card__icon card__icon--mask" style="--m:url(../assets/icons/${c.mask}.svg)" aria-hidden="true"></span>` : `<svg class="card__icon" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">${c.icon}</svg>`}
           <h3 class="card__name">${e.name}</h3>
           <p class="card__kind">${e.kind}</p>
           <p class="card__desc">${e.desc}</p>
@@ -409,9 +412,11 @@
   if (finePointer && !reduced) {
     addEventListener('pointermove', (e) => { mouse.tx = e.clientX / vw - .5; mouse.ty = e.clientY / vh - .5; }, { passive: true });
   }
+  const aboutSec = $('#about'), pieces = $$('#about .pc'), edges = $$('.about__edge');
+  pieces.forEach((el) => { el._from = el.dataset.from.split(',').map(Number); el._op = parseFloat(getComputedStyle(el).opacity) || 1; });
   const visible = new Set();
   const visIO = new IntersectionObserver((entries) => entries.forEach((en) => (en.isIntersecting ? visible.add(en.target) : visible.delete(en.target))), { rootMargin: '20% 0px' });
-  [hero, journey, wishSec].forEach((el) => visIO.observe(el));
+  [hero, journey, wishSec, aboutSec].forEach((el) => visIO.observe(el));
   const speedParents = new Map(speedEls.map((el) => [el, el.parentElement]));
   speedEls.forEach((el) => visIO.observe(el.parentElement));
 
@@ -464,6 +469,23 @@
       heroCarpet.style.transform = `translate3d(${(cx - mouse.x * 24).toFixed(1)}px,${(cy - mouse.y * 14).toFixed(1)}px,0) rotate(${(Math.sin(ts * .9) * 3 - ep * 10).toFixed(2)}deg) scale(${(cs * (p > .02 ? 1 : flip)).toFixed(3)},${cs.toFixed(3)})`;
       heroCarpet.style.opacity = ck;
       drawSky(t); drawDust(t);
+    }
+
+    // --- about diorama: pieces fly in from their edges, then drift ---
+    if (visible.has(aboutSec)) {
+      const r = aboutSec.getBoundingClientRect();
+      const p = reduced ? 1 : clamp((vh - r.top) / (vh * 1.05));
+      const off = r.top + Math.min(r.height, vh) / 2 - vh / 2;
+      pieces.forEach((el, i) => {
+        const e = reduced ? 1 : easeOut(clamp(p * 1.25 - i * .07));
+        const [fx, fy] = el._from;
+        const d = reduced ? 0 : +el.dataset.drift;
+        const tx = (1 - e) * fx * vw / 100 - mouse.x * d * 260;
+        const ty = (1 - e) * fy * vh / 100 + off * d - mouse.y * d * 120;
+        el.style.transform = `translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,0) rotate(${((1 - e) * (fx > 0 ? 6 : -6)).toFixed(2)}deg)`;
+        el.style.opacity = Math.min(1, e * 1.4) * (el._op || 1);
+      });
+      edges.forEach((el, i) => { el.style.translate = `0 ${reduced ? 0 : (r.top * (i ? .1 : .14)).toFixed(1)}px`; });
     }
 
     // --- generic parallax ---

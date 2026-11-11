@@ -24,6 +24,11 @@ tagged with `data-depth` (0 = far sky, 1 = foreground arch). `js/main.js` moves 
 Any element with `data-speed="0.1"` gets vertical scroll parallax relative to its parent.
 The schedule is a pinned horizontal scroll; the carpet follows `#flightPath`.
 
+The **About** section is a second painted diorama (pillar arch, blossom branch, music pavilion, skyline, sitar,
+table lantern). Each `.pc` piece has `data-from="x,y"` (offset in vw/vh it flies in from as the section arrives)
+and `data-drift` (scroll + mouse parallax strength). Cream cloud banks swallow the bottom of the hero, and the
+three pillars (Showcases / Competitions / Campus Life) sit between flowering bushes above a cloud strip.
+
 ## Editing content
 
 | What | Where |
@@ -54,7 +59,7 @@ with `postMessage({ type: 'effe:place', id })`.
 ## Assets
 
 `assets/*.webp` are the painted layers, cropped and compressed from the original PNGs (about 2.2 MB total).
-`js/scene.js` draws the smaller illustrations (about-window pavilion, blossoms, cloud dividers, campus map)
-as SVG.
+`assets/icons/*.svg` and `assets/divider-*.svg` come from the components pack. `js/scene.js` still draws the campus map
+and a few cloud dividers as SVG.
 
 After changing CSS/JS, bump the `?v=` number on the links in `index.html` so browsers fetch the new files.

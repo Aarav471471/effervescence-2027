@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs>
+<path id="m" d="M0 0 C9 -4.5 21 -4.5 30 0 C31 16 27 29 15 34 C3 29 -1 16 0 0 Z"/>
+<g id="happy"><path d="M4.5 12.5 C6 7.5 11 7.5 12.5 12.5 C10.5 10.5 6.5 10.5 4.5 12.5Z M17.5 12.5 C19 7.5 24 7.5 25.5 12.5 C23.5 10.5 19.5 10.5 17.5 12.5Z"/>
+<path d="M6 18.5 C10 21 20 21 24 18.5 C22 27 8 27 6 18.5Z"/></g>
+<g id="sad"><path d="M4.5 10 C6.5 13.5 10.5 13.5 12.5 11 C10.5 15.5 6 15 4.5 10Z M17.5 11 C19.5 13.5 23.5 13.5 25.5 10 C24 15 19.5 15.5 17.5 11Z"/>
+<path d="M7 25.5 C9 17.5 21 17.5 23 25.5 C19 22.5 11 22.5 7 25.5Z"/></g>
+<mask id="mr"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/>
+<g transform="translate(4 12) rotate(-12)"><use href="#m" stroke="#000" stroke-width="5" fill="#000"/></g></mask>
+<mask id="fl"><g transform="translate(4 12) rotate(-12)"><use href="#m" fill="#fff"/><use href="#happy" fill="#000"/></g></mask>
+<mask id="fr"><g transform="translate(30 14) rotate(14)"><use href="#m" fill="#fff"/><use href="#sad" fill="#000"/></g></mask></defs>
+<g fill="#A93A22"><g mask="url(#mr)"><rect width="64" height="64" mask="url(#fr)"/></g><rect width="64" height="64" mask="url(#fl)"/></g></svg>

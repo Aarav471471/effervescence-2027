@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Gloock&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=8" />
+  <link rel="stylesheet" href="css/style.css?v=9" />
   <script>/* honour reduced motion; ?motion=1 forces full motion for demos */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=1/.test(location.search)) document.documentElement.classList.add('rm');</script>
 </head>
@@ -117,8 +117,15 @@
           <img src="assets/sitar.webp" alt="" loading="lazy" />
           <span class="flame" style="left:78%;top:52%"></span>
         </div>
-        <div class="pc pc--tlantern" data-from="-10,20" data-drift="0.12">
+        <div class="pc pc--tlantern" data-from="10,20" data-drift="0.12">
           <img src="assets/table-lantern.webp" alt="" loading="lazy" />
+        </div>
+        <!-- side cloud banks slide in from left and right and settle over the base of the scene -->
+        <div class="pc pc--cloud pc--cloud-l" data-from="-55,6" data-drift="0.05" data-rot="0">
+          <img src="assets/cloudbank-cream.webp" alt="" loading="lazy" />
+        </div>
+        <div class="pc pc--cloud pc--cloud-r" data-from="55,6" data-drift="0.03" data-rot="0">
+          <img src="assets/cloudbank-cream.webp" alt="" loading="lazy" />
         </div>
       </div>
 
@@ -389,6 +396,6 @@
 
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="js/scene.js?v=8"></script>
-  <script src="js/main.js?v=8"></script>
+  <script src="js/main.js?v=9"></script>
 </body>
 </html>

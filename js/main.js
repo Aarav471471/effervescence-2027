@@ -482,7 +482,7 @@
         const d = reduced ? 0 : +el.dataset.drift;
         const tx = (1 - e) * fx * vw / 100 - mouse.x * d * 260;
         const ty = (1 - e) * fy * vh / 100 + off * d - mouse.y * d * 120;
-        el.style.transform = `translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,0) rotate(${((1 - e) * (fx > 0 ? 6 : -6)).toFixed(2)}deg)`;
+        el.style.transform = `translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,0) rotate(${((1 - e) * (el.dataset.rot ? +el.dataset.rot : fx > 0 ? 6 : -6)).toFixed(2)}deg)`;
         el.style.opacity = Math.min(1, e * 1.4) * (el._op || 1);
       });
       edges.forEach((el, i) => { el.style.translate = `0 ${reduced ? 0 : (r.top * (i ? .1 : .14)).toFixed(1)}px`; });

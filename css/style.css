@@ -307,7 +307,12 @@ button { font: inherit; cursor: pointer; }
 .pc--branch { right: -3%; top: -2%; width: min(56vw, 840px); }
 .pc--branch img { transform-origin: 100% 10%; animation: sway 8s ease-in-out infinite; }
 .pc--sitar { left: 0; bottom: 3%; width: min(27vw, 390px); }
-.pc--tlantern { left: max(25vw, 330px); bottom: 7%; width: clamp(34px, 3.6vw, 52px); }
+.pc--tlantern { right: calc(min(42vw, 640px) - 1%); bottom: 9%; width: clamp(34px, 3.4vw, 50px); }
+/* side clouds: the painting is cut on its right edge, so the mirrored copy sits flush left */
+.pc--cloud { bottom: -9%; width: 60%; z-index: 2; }
+.pc--cloud-l { left: -6%; }
+.pc--cloud-l img { transform: scaleX(-1); }
+.pc--cloud-r { right: -6%; width: 62%; bottom: -11%; }
 .pc--tlantern img, .flame { animation: flicker 3.2s infinite; }
 .pc--tlantern::before, .flame {
   content: ''; position: absolute; left: 50%; top: 55%; width: 260%; aspect-ratio: 1; translate: -50% -50%;
@@ -416,6 +421,8 @@ button { font: inherit; cursor: pointer; }
   .pc--pavilion { width: 80vw; bottom: 6vw; right: -4vw; }
   .pc--skyline { left: 2vw; bottom: 24vw; width: 52vw; }
   .pc--sitar { width: 42vw; bottom: 0; left: -2vw; }
+  .pc--cloud { width: 95vw; bottom: -10vw; }
+  .pc--cloud-r { bottom: -14vw; }
   .pillars__row { grid-template-columns: 1fr; gap: 10px; }
   .pillar + .pillar::before { left: 30%; right: 30%; top: 0; bottom: auto; width: auto; height: 10px; translate: 0 -50%; background: url(../assets/divider-ornate.svg) center / contain no-repeat; }
   .pillars__bush { opacity: .5; }

@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en" class="is-loading">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Effervescence 2027 · IIIT Allahabad</title>
+  <meta name="description" content="Effervescence — the annual cultural festival of IIIT Allahabad. Music, dance, drama, literature and fine arts across three nights." />
+  <meta name="theme-color" content="#101a4a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Gloock&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=5" />
+  <script>/* honour reduced motion; ?motion=1 forces full motion for demos */
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=1/.test(location.search)) document.documentElement.classList.add('rm');</script>
+</head>
+<body>
+  <a class="skip" href="#about">Skip to content</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__brand" aria-label="Effervescence home">
+      <span class="nav__mark" aria-hidden="true">✦</span> Effervescence
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#events">Events</a>
+      <a href="#journey">Schedule</a>
+      <a href="#map">Campus</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#wish">Make a Wish</a>
+    </nav>
+    <a href="#register" class="btn btn--ruby btn--sm nav__cta">Register</a>
+    <button class="nav__burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
+
+  <main>
+    <!-- ============ HERO: paper-cut diorama ============ -->
+    <section class="hero" id="top" aria-label="Effervescence 2027">
+      <div class="hero__stage">
+        <canvas class="plane plane--sky" data-depth="0.03" aria-hidden="true"></canvas>
+        <!-- painted layers, back to front. data-depth = how much each plane moves -->
+        <div class="plane plane--img" data-depth="0.04" aria-hidden="true">
+          <img class="lyr lyr--stars" src="assets/stars.webp" alt="" />
+        </div>
+        <div class="plane plane--img" data-depth="0.07" aria-hidden="true">
+          <img class="lyr lyr--moon" src="assets/moon.webp" alt="" />
+        </div>
+        <div class="plane plane--img" data-depth="0.12" aria-hidden="true">
+          <img class="lyr lyr--wisp-l" src="assets/wisps.webp" alt="" />
+          <img class="lyr lyr--wisp-r" src="assets/wisps.webp" alt="" />
+        </div>
+        <div class="plane plane--img" data-depth="0.18" aria-hidden="true">
+          <img class="lyr lyr--citadel" src="assets/citadel.webp" alt="" />
+        </div>
+        <div class="plane plane--img" data-depth="0.28" aria-hidden="true">
+          <img class="lyr lyr--palace" src="assets/palace.webp" alt="" fetchpriority="high" />
+        </div>
+        <div class="plane plane--img" data-depth="0.42" aria-hidden="true">
+          <img class="lyr lyr--cloud-mid" src="assets/cloudbank.webp" alt="" />
+        </div>
+        <div class="carpet" aria-hidden="true"></div>
+        <div class="plane plane--img" data-depth="0.62" aria-hidden="true">
+          <img class="lyr lyr--cloud-front" src="assets/cloudbank.webp" alt="" />
+        </div>
+        <div class="plane plane--img plane--palms" data-depth="0.8" aria-hidden="true">
+          <img class="lyr lyr--palms-l" src="assets/palms.webp" alt="" />
+          <img class="lyr lyr--palms-r" src="assets/palms.webp" alt="" />
+        </div>
+        <div class="plane plane--img plane--frame" data-depth="1" aria-hidden="true">
+          <img class="lyr lyr--arch" src="assets/arch.webp" alt="" />
+        </div>
+        <div class="plane plane--lanterns" data-depth="1.05" aria-hidden="true">
+          <div class="lantern" style="--x:7%;--top:-34%;--d:0s"></div>
+          <div class="lantern lantern--sm" style="--x:16%;--top:-42%;--d:-1.2s"></div>
+          <div class="lantern lantern--sm" style="--x:84%;--top:-40%;--d:-.6s"></div>
+          <div class="lantern" style="--x:93%;--top:-30%;--d:-2s"></div>
+        </div>
+        <canvas class="plane plane--dust" data-depth="1.2" aria-hidden="true"></canvas>
+
+        <div class="plaque" id="plaque">
+          <img class="plaque__img" src="assets/plaque.webp" alt="" aria-hidden="true" />
+          <div class="plaque__body">
+            <p class="eyebrow">IIIT Allahabad · Cultural Festival</p>
+            <h1 class="plaque__title">Effervescence <span>2027</span></h1>
+            <p class="plaque__sub">Three nights of music, dance, drama &amp; art.<br/><em>Dates to be announced</em></p>
+            <a href="#events" class="btn btn--ruby">Explore the Festival</a>
+          </div>
+        </div>
+
+        <a href="#about" class="scroll-cue" aria-label="Scroll to explore">
+          <span>Scroll to fly in</span><i></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about" id="about">
+      <div class="cloud-edge cloud-edge--top" data-clouds="cream" aria-hidden="true"></div>
+      <div class="about__inner wrap">
+        <div class="about__text reveal">
+          <p class="eyebrow eyebrow--ruby">About the Festival</p>
+          <h2 class="h2">A celebration of culture, creativity &amp; community</h2>
+          <p class="lede">Effervescence is IIIT Allahabad’s annual cultural festival — a stage for art, music, dance, literature and a wide spectrum of student-led events. For three nights the campus turns into a city of lanterns.</p>
+          <dl class="stats">
+            <div><dt data-count="3">0</dt><dd>Nights</dd></div>
+            <div><dt data-count="40" data-suffix="+">0</dt><dd>Events</dd></div>
+            <div><dt data-count="12" data-suffix="k+">0</dt><dd>Footfall</dd></div>
+          </dl>
+        </div>
+        <figure class="about__window reveal" aria-label="An illustrated pavilion where musicians play under lanterns">
+          <div class="window">
+            <div class="window__sky" data-speed="-0.06"></div>
+            <div class="window__layer" data-speed="-0.12" data-scene-inline="pavilion"></div>
+            <div class="window__layer window__layer--clouds" data-speed="0.05" data-clouds="lav-small"></div>
+            <div class="window__layer window__layer--blossom" data-speed="0.16" data-scene-inline="blossom"></div>
+          </div>
+          <div class="window__lantern" aria-hidden="true"></div>
+        </figure>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Music</span><b>✦</b><span>Dance</span><b>✦</b><span>Dramatics</span><b>✦</b><span>Literature</span><b>✦</b><span>Fine Arts</span><b>✦</b><span>Pronites</span><b>✦</b><span>Bazaar</span><b>✦</b>
+          <span>Music</span><b>✦</b><span>Dance</span><b>✦</b><span>Dramatics</span><b>✦</b><span>Literature</span><b>✦</b><span>Fine Arts</span><b>✦</b><span>Pronites</span><b>✦</b><span>Bazaar</span><b>✦</b>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVENTS ============ -->
+    <section class="events" id="events">
+      <div class="events__bg" data-speed="-0.15" aria-hidden="true"></div>
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="eyebrow">Explore the Events</p>
+          <h2 class="h2 h2--light">Discover the magic of every stage</h2>
+          <p class="lede lede--light">From electrifying performances to creative competitions — pick a pavilion.</p>
+        </header>
+
+        <div class="tabs reveal" role="tablist" aria-label="Event categories">
+          <button role="tab" aria-selected="true" data-cat="all">All</button>
+          <button role="tab" aria-selected="false" data-cat="music">Music</button>
+          <button role="tab" aria-selected="false" data-cat="dance">Dance</button>
+          <button role="tab" aria-selected="false" data-cat="drama">Dramatics</button>
+          <button role="tab" aria-selected="false" data-cat="lit">Literature</button>
+          <button role="tab" aria-selected="false" data-cat="arts">Fine Arts</button>
+        </div>
+
+        <div class="events__layout">
+          <article class="stage reveal" aria-labelledby="featured-title">
+            <div class="stage__proscenium">
+              <div class="stage__scene">
+                <p class="stage__tag">Featured · Night 3</p>
+                <div class="stage__spot" aria-hidden="true"></div>
+                <h3 id="featured-title" class="stage__title">The Headliner Night</h3>
+                <p class="stage__desc">Our biggest night under the stars. Artist reveal coming soon — keep your lanterns lit.</p>
+                <a href="#register" class="btn btn--gold">Get Passes</a>
+              </div>
+              <div class="curtain curtain--l" aria-hidden="true"></div>
+              <div class="curtain curtain--r" aria-hidden="true"></div>
+              <div class="stage__valance" aria-hidden="true"></div>
+            </div>
+          </article>
+          <div class="cards" id="cards" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ JOURNEY (horizontal schedule) ============ -->
+    <section class="journey" id="journey" aria-label="Festival schedule">
+      <div class="journey__sticky">
+        <div class="journey__sky" aria-hidden="true"></div>
+        <div class="journey__far" aria-hidden="true"></div>
+        <div class="journey__near" aria-hidden="true"></div>
+        <div class="journey__track">
+          <svg class="journey__path" viewBox="0 0 4000 600" preserveAspectRatio="none" aria-hidden="true">
+            <path id="flightPath" d="M80 420 C500 160 800 520 1200 300 S1900 120 2300 360 S3100 520 3500 260 S3900 200 3980 240" fill="none" stroke="#e8b45a" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"/>
+            <path id="flightTrail" d="M80 420 C500 160 800 520 1200 300 S1900 120 2300 360 S3100 520 3500 260 S3900 200 3980 240" fill="none" stroke="#ffd98c" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          <div class="journey__carpet" aria-hidden="true"></div>
+
+          <div class="jpanel jpanel--intro">
+            <p class="eyebrow">The Journey</p>
+            <h2 class="h2 h2--light">Three nights.<br/>One flight.</h2>
+            <p class="lede lede--light">Keep scrolling — the carpet knows the way.</p>
+          </div>
+          <article class="jpanel">
+            <div class="jcard">
+              <p class="jcard__day">Night I</p>
+              <h3>The Arrival</h3>
+              <ul>
+                <li><time>17:00</time> Opening ceremony &amp; lantern walk</li>
+                <li><time>19:00</time> Aalap — classical &amp; fusion</li>
+                <li><time>21:30</time> Nukkad street plays</li>
+              </ul>
+            </div>
+          </article>
+          <article class="jpanel">
+            <div class="jcard">
+              <p class="jcard__day">Night II</p>
+              <h3>The Bazaar</h3>
+              <ul>
+                <li><time>12:00</time> Bazaar &amp; food lanes open</li>
+                <li><time>18:00</time> Mudra — group &amp; solo dance</li>
+                <li><time>21:00</time> Battle of Bands</li>
+              </ul>
+            </div>
+          </article>
+          <article class="jpanel">
+            <div class="jcard">
+              <p class="jcard__day">Night III</p>
+              <h3>The Grand Finale</h3>
+              <ul>
+                <li><time>16:00</time> Fine-arts showcase</li>
+                <li><time>19:00</time> Spark — the mega musical night</li>
+                <li><time>22:00</time> Headliner &amp; sky lanterns</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+        <div class="journey__progress" aria-hidden="true"><i></i></div>
+      </div>
+    </section>
+
+    <!-- ============ MAP ============ -->
+    <section class="mapsec" id="map">
+      <div class="cloud-edge cloud-edge--top" data-clouds="cream" aria-hidden="true"></div>
+      <div class="wrap mapsec__inner">
+        <div class="mapsec__text reveal">
+          <p class="eyebrow eyebrow--ruby">Explore the Campus</p>
+          <h2 class="h2">Find your way through the magic</h2>
+          <p class="lede">Every venue, food lane and lantern lawn. Hover a place to find it on the map.</p>
+          <ul class="places" id="places"></ul>
+        </div>
+        <div class="scrollmap reveal" id="scrollmap">
+          <div class="scrollmap__rod scrollmap__rod--top" aria-hidden="true"></div>
+          <div class="scrollmap__paper">
+            <svg class="scrollmap__art" viewBox="0 0 800 560" aria-hidden="true" id="mapArt"></svg>
+            <div class="pins" id="pins"></div>
+            <div class="compass" data-speed="0.04" aria-hidden="true">✦</div>
+          </div>
+          <div class="scrollmap__rod scrollmap__rod--bottom" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="gallery" id="gallery">
+      <div class="wrap">
+        <header class="section-head section-head--left reveal">
+          <p class="eyebrow eyebrow--ruby">Glimpses of Effervescence</p>
+          <h2 class="h2">Moments that become memories</h2>
+        </header>
+        <div class="frames">
+          <div class="frames__col" data-speed="-0.08">
+            <figure class="gframe gframe--tall reveal"><div class="gframe__img" style="--hue:18"></div><figcaption>Performance highlights</figcaption></figure>
+            <figure class="gframe reveal"><div class="gframe__img" style="--hue:330"></div><figcaption>Candid moments</figcaption></figure>
+          </div>
+          <div class="frames__col frames__col--mid" data-speed="0.06">
+            <figure class="gframe reveal"><div class="gframe__img" style="--hue:220"></div><figcaption>Competition highlights</figcaption></figure>
+            <figure class="gframe gframe--tall reveal"><div class="gframe__img" style="--hue:38"></div><figcaption>Pronite crowd</figcaption></figure>
+          </div>
+          <div class="frames__col" data-speed="-0.12">
+            <figure class="gframe gframe--tall reveal"><div class="gframe__img" style="--hue:262"></div><figcaption>Campus celebrations</figcaption></figure>
+            <figure class="gframe reveal"><div class="gframe__img" style="--hue:4"></div><figcaption>Backstage</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WISH ============ -->
+    <section class="wish" id="wish">
+      <canvas class="wish__sky" aria-hidden="true"></canvas>
+      <div class="wish__branch" data-speed="0.1" data-scene-inline="blossom-wide" aria-hidden="true"></div>
+      <div class="wrap wish__inner">
+        <div class="wish__text reveal">
+          <p class="eyebrow">Make a Wish</p>
+          <h2 class="h2 h2--light">Every wish begins with a dream</h2>
+          <p class="lede lede--light">Write yours on a paper lantern and release it into the Effervescence sky. Tap any lantern to read it.</p>
+        </div>
+        <form class="wishform reveal" id="wishForm">
+          <label for="wishText" class="wishform__label">Your wish</label>
+          <textarea id="wishText" maxlength="150" rows="4" placeholder="May the bass drop at exactly the right moment…" required></textarea>
+          <div class="wishform__row">
+            <span class="wishform__count" id="wishCount">0 / 150</span>
+            <button class="btn btn--ruby" type="submit">Release lantern</button>
+          </div>
+        </form>
+      </div>
+      <div class="wish__lanterns" id="wishLanterns"></div>
+      <div class="wish__reader" id="wishReader" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- ============ FINALE ============ -->
+    <section class="finale" id="register">
+      <div class="finale__scene">
+        <div class="fl fl--stars" data-speed="-0.25" aria-hidden="true"><img src="assets/stars.webp" alt="" loading="lazy" /></div>
+        <div class="fl fl--moon" data-speed="-0.3" aria-hidden="true"><img src="assets/moon.webp" alt="" loading="lazy" /></div>
+        <div class="fl fl--palace" data-speed="-0.12" aria-hidden="true"><img src="assets/palace.webp" alt="" loading="lazy" /></div>
+        <div class="finale__carpet" aria-hidden="true"></div>
+        <div class="fl fl--clouds" data-speed="0.06" aria-hidden="true"><img src="assets/cloudbank.webp" alt="" loading="lazy" /></div>
+        <div class="fl fl--palms-l" data-speed="0.12" aria-hidden="true"><img src="assets/palms.webp" alt="" loading="lazy" /></div>
+      </div>
+      <div class="finale__card reveal">
+        <p class="eyebrow eyebrow--ruby">The journey continues</p>
+        <h2 class="h2">Be part of Effervescence 2027</h2>
+        <p class="lede">Registrations open with the date reveal. Leave your email and we’ll send the first lantern.</p>
+        <form class="notify" id="notifyForm">
+          <label class="sr-only" for="notifyEmail">Email address</label>
+          <input id="notifyEmail" type="email" placeholder="you@example.com" required autocomplete="email" />
+          <button class="btn btn--ruby" type="submit">Notify me</button>
+        </form>
+        <p class="notify__msg" id="notifyMsg" role="status"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <p class="footer__title">IIIT Allahabad</p>
+        <p>Jhalwa, Prayagraj · <a href="mailto:effervescence@iiita.ac.in">effervescence@iiita.ac.in</a></p>
+      </div>
+      <nav class="footer__links" aria-label="Footer">
+        <a href="#top">Home</a><a href="#events">Events</a><a href="#journey">Schedule</a><a href="#map">Campus Map</a><a href="#wish">Make a Wish</a><a href="#gallery">Gallery</a>
+      </nav>
+      <p class="footer__copy">© 2027 IIIT Allahabad. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/scene.js?v=5"></script>
+  <script src="js/main.js?v=5"></script>
+</body>
+</html>

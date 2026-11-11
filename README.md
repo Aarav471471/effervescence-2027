@@ -1,5 +1,7 @@
 # Effervescence 2027 — landing page
 
+**Live demo:** https://aarav471471.github.io/effervescence-2027/ (add `?motion=1` to force full motion)
+
 Static site: no build step, no framework. Open with any static server:
 
 ```bash

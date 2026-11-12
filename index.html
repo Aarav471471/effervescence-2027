@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Gloock&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=9" />
+  <link rel="stylesheet" href="css/style.css?v=10" />
   <script>/* honour reduced motion; ?motion=1 forces full motion for demos */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=1/.test(location.search)) document.documentElement.classList.add('rm');</script>
 </head>
@@ -95,36 +95,33 @@
 
     <!-- ============ ABOUT ============ -->
     <section class="about" id="about">
-      <img class="about__edge" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
-      <img class="about__edge about__edge--flip" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
-      <img class="about__edge about__edge--mid" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
       <div class="about__seam" aria-hidden="true"></div>
 
-      <!-- painted diorama: each piece flies in from its edge as the section arrives (data-from = vw,vh), then drifts (data-drift) -->
+      <!-- painted diorama: each piece fades and rises in as it scrolls into view (data-from = start offset in vw,vh), then drifts (data-drift) -->
       <div class="diorama" aria-hidden="true">
-        <img class="pc pc--skyline" src="assets/skyline.webp" alt="" data-from="0,10" data-drift="-0.10" loading="lazy" />
-        <div class="pc pc--pavilion" data-from="18,14" data-drift="-0.05">
+        <img class="pc pc--skyline" src="assets/skyline.webp" alt="" data-from="0,5" data-drift="-0.10" loading="lazy" />
+        <div class="pc pc--pavilion" data-from="3,12" data-drift="-0.05">
           <div class="pavilion__glow"></div>
           <img src="assets/pavilion.webp" alt="" loading="lazy" />
           <span class="note" style="--x:32%;--d:0s">♪</span><span class="note" style="--x:46%;--d:1.4s">♫</span><span class="note" style="--x:58%;--d:2.6s">♪</span>
         </div>
-        <img class="pc pc--pillar" src="assets/pillar.webp" alt="" data-from="-30,0" data-drift="0.04" loading="lazy" />
-        <div class="pc pc--branch" data-from="24,-22" data-drift="0.10">
+        <img class="pc pc--pillar" src="assets/pillar.webp" alt="" data-from="-3,0" data-drift="0.04" loading="lazy" />
+        <div class="pc pc--branch" data-from="2,-4" data-drift="0.10">
           <img src="assets/branch.webp" alt="" loading="lazy" />
           <div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
-        <div class="pc pc--sitar" data-from="-16,16" data-drift="0.07">
+        <div class="pc pc--sitar" data-from="-3,10" data-drift="0.07">
           <img src="assets/sitar.webp" alt="" loading="lazy" />
           <span class="flame" style="left:78%;top:52%"></span>
         </div>
-        <div class="pc pc--tlantern" data-from="10,20" data-drift="0.12">
+        <div class="pc pc--tlantern" data-from="0,8" data-drift="0.12">
           <img src="assets/table-lantern.webp" alt="" loading="lazy" />
         </div>
         <!-- side cloud banks slide in from left and right and settle over the base of the scene -->
-        <div class="pc pc--cloud pc--cloud-l" data-from="-55,6" data-drift="0.05" data-rot="0">
+        <div class="pc pc--cloud pc--cloud-l" data-from="-14,8" data-drift="0.05">
           <img src="assets/cloudbank-cream.webp" alt="" loading="lazy" />
         </div>
-        <div class="pc pc--cloud pc--cloud-r" data-from="55,6" data-drift="0.03" data-rot="0">
+        <div class="pc pc--cloud pc--cloud-r" data-from="14,8" data-drift="0.03">
           <img src="assets/cloudbank-cream.webp" alt="" loading="lazy" />
         </div>
       </div>
@@ -396,6 +393,6 @@
 
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="js/scene.js?v=8"></script>
-  <script src="js/main.js?v=9"></script>
+  <script src="js/main.js?v=10"></script>
 </body>
 </html>

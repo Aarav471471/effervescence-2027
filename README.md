@@ -17,17 +17,21 @@ The hero is a paper-cut diorama: every painted piece in `assets/` is its own pla
 tagged with `data-depth` (0 = far sky, 1 = foreground arch). `js/main.js` moves each plane by its depth on:
 
 - **mouse move**: deeper planes shift more
-- **scroll**: the hero is 240vh tall with a sticky stage; scrolling scales the near planes past the camera
-  (the arch flies away, the palms part, the carpet swoops in)
-- **load**: planes stand up one after another like a pop-up book, once the images have decoded
+- **scroll**: the hero is one screen tall and scrolls with the page; far layers (sky, palace) lag behind
+  while near layers (palms, arch, lanterns) race ahead, so the scene comes apart in depth
+- **load**: the scene assembles one piece at a time, about 9 seconds in all: sky, stars, cloud bank rising,
+  palms sliding in, arch dropping, palace growing, plaque, carpet flying in from the right, wisps, citadel,
+  moon, lanterns. The order and timing live in `INTRO` in `js/main.js`. Scrolling or pressing a key
+  fast-forwards it.
 
-Any element with `data-speed="0.1"` gets vertical scroll parallax relative to its parent.
-The schedule is a pinned horizontal scroll; the carpet follows `#flightPath`.
+Smooth scrolling is Lenis (`lerp: .075`). Any element with `data-speed="0.1"` gets vertical scroll parallax
+relative to its parent. The schedule is a pinned horizontal scroll; the carpet follows `#flightPath`.
 
 The **About** section is a second painted diorama (pillar arch, blossom branch, music pavilion, skyline, sitar,
-table lantern). Each `.pc` piece has `data-from="x,y"` (offset in vw/vh it flies in from as the section arrives)
-and `data-drift` (scroll + mouse parallax strength). Cream cloud banks swallow the bottom of the hero, and the
-three pillars (Showcases / Competitions / Campus Life) sit between flowering bushes above a cloud strip.
+table lantern, side cloud banks). Each `.pc` piece fades and rises into place as it scrolls into view, starting
+from its `data-from="x,y"` offset (vw, vh), then drifts by `data-drift` with scroll and mouse. A scalloped
+parchment edge carries the hero into About, and the three pillars (Showcases / Competitions / Campus Life)
+sit between flowering bushes above a cloud strip.
 
 ## Editing content
 

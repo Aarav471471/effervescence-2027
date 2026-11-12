@@ -84,7 +84,7 @@
      ------------------------------------------------------------------ */
   let lenis = null;
   if (!reduced && window.Lenis) {
-    lenis = new Lenis({ lerp: .09, wheelMultiplier: 1 });
+    lenis = new Lenis({ lerp: .075, wheelMultiplier: .9, smoothWheel: true });
   }
   $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
     const id = a.getAttribute('href');
@@ -412,20 +412,75 @@
   if (finePointer && !reduced) {
     addEventListener('pointermove', (e) => { mouse.tx = e.clientX / vw - .5; mouse.ty = e.clientY / vh - .5; }, { passive: true });
   }
-  const aboutSec = $('#about'), pieces = $$('#about .pc'), edges = $$('.about__edge');
-  pieces.forEach((el) => { el._from = el.dataset.from.split(',').map(Number); el._op = parseFloat(getComputedStyle(el).opacity) || 1; });
+  const aboutSec = $('#about'), pieces = $$('#about .pc');
+  // About pieces fade and rise into place as each one scrolls into view (CSS transition), then drift with scroll
+  const pieceIO = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in'); pieceIO.unobserve(en.target);
+  }), { rootMargin: '0px 0px -10% 0px', threshold: .12 });
+  pieces.forEach((el) => {
+    const [fx, fy] = (el.dataset.from || '0,0').split(',').map(Number);
+    el.style.setProperty('--fx', fx + 'vw'); el.style.setProperty('--fy', fy + 'vh');
+    if (reduced) el.classList.add('in'); else pieceIO.observe(el);
+  });
   const visible = new Set();
   const visIO = new IntersectionObserver((entries) => entries.forEach((en) => (en.isIntersecting ? visible.add(en.target) : visible.delete(en.target))), { rootMargin: '20% 0px' });
   [hero, journey, wishSec, aboutSec].forEach((el) => visIO.observe(el));
   const speedParents = new Map(speedEls.map((el) => [el, el.parentElement]));
   speedEls.forEach((el) => visIO.observe(el.parentElement));
 
-  // the pop-up intro starts once the painted hero layers have decoded (max 2.5s wait)
-  let introStart = Infinity;
+  /* Load-in: the scene assembles one piece at a time, like the reference.
+     [selector, start ms, duration ms, motion]. Scrolling or a key press fast-forwards it. */
+  const INTRO = [
+    ['.plane--sky', 0, 800, 'fade'],
+    ['.lyr--stars', 250, 1200, 'fade'],
+    ['.lyr--cloud-mid', 750, 1400, 'rise'],
+    ['.lyr--cloud-front', 1000, 1400, 'rise'],
+    ['.lyr--palms-l', 2000, 1300, 'left'],
+    ['.lyr--palms-r', 2000, 1300, 'right'],
+    ['.lyr--arch', 3000, 1200, 'drop'],
+    ['.lyr--palace', 3600, 1500, 'grow'],
+    ['#plaque', 4800, 1200, 'plaque'],
+    ['.hero .carpet', 5700, 1800, 'carpet'],
+    ['.lyr--wisp-l', 6700, 1200, 'left'],
+    ['.lyr--wisp-r', 6800, 1200, 'right'],
+    ['.lyr--citadel', 7200, 1100, 'fadeL'],
+    ['.lyr--moon', 7700, 1200, 'moon'],
+    ['.hero .lantern', 8300, 1000, 'drop'],
+    ['.plane--dust', 8400, 1400, 'fade'],
+    ['.scroll-cue', 9000, 900, 'fade']
+  ];
+  const introEls = [];
+  INTRO.forEach(([sel, start, dur, kind]) => $$(sel).forEach((el, i) => {
+    introEls.push({ el, start: start + i * 140, dur, kind, op: parseFloat(getComputedStyle(el).opacity) || 1 });
+  }));
+  const INTRO_END = Math.max(...introEls.map((o) => o.start + o.dur));
+  const introK = {}; // eased progress per special element, read by the hero loop
+  let introT = reduced ? INTRO_END : 0, introSpeed = 1, introOn = false, introDone = reduced, lastFrameT = 0;
+  const hurry = () => { if (introT < INTRO_END) introSpeed = 7; };
+  ['wheel', 'touchstart', 'keydown'].forEach((ev) => addEventListener(ev, hurry, { passive: true }));
   Promise.race([
     Promise.all($$('.hero img').map((im) => (im.decode ? im.decode().catch(() => {}) : Promise.resolve()))),
     new Promise((r) => setTimeout(r, 2500))
-  ]).then(() => { introStart = performance.now() + 80; });
+  ]).then(() => { introOn = true; });
+  function applyIntro() {
+    introEls.forEach((o) => {
+      const k = easeOut(clamp((introT - o.start) / o.dur));
+      const u = 1 - k, st = o.el.style;
+      switch (o.kind) {
+        case 'plaque': introK.plaque = k; return;
+        case 'carpet': introK.carpet = k; return;
+        case 'rise': st.translate = `0 ${(u * 38).toFixed(2)}vh`; break;
+        case 'left': st.translate = `${(-u * 42).toFixed(2)}vw 0`; break;
+        case 'right': st.translate = `${(u * 42).toFixed(2)}vw 0`; break;
+        case 'drop': st.translate = `0 ${(-u * 48).toFixed(2)}vh`; break;
+        case 'grow': st.translate = `0 ${(u * 7).toFixed(2)}vh`; st.scale = (.84 + .16 * k).toFixed(4); break;
+        case 'moon': st.scale = (.45 + .55 * k).toFixed(4); break;
+        case 'fadeL': st.translate = `${(-u * 7).toFixed(2)}vw 0`; break;
+      }
+      st.opacity = (Math.min(1, k * 1.3) * o.op).toFixed(3);
+    });
+  }
   let lastY = -1, first = true;
 
   function frame(t) {
@@ -439,53 +494,44 @@
       lastY = y;
     }
 
-    // --- hero ---
+    // --- intro clock ---
+    const dt = lastFrameT ? Math.min(64, t - lastFrameT) : 16; lastFrameT = t;
+    if (!introDone && introOn) {
+      introT += dt * introSpeed;
+      applyIntro();
+      if (introT >= INTRO_END) { introDone = true; introT = INTRO_END; applyIntro(); }
+    } else if (!introOn && !reduced) applyIntro();
+
+    // --- hero: scrolls with the page; far layers lag, near layers race ahead ---
     if (visible.has(hero)) {
-      const r = hero.getBoundingClientRect();
-      const p = reduced ? 0 : clamp(-r.top / (r.height - vh));
-      const ep = easeInOut(p);
-      planes.forEach((el, i) => {
+      const hy = reduced ? 0 : clamp(-hero.getBoundingClientRect().top, 0, vh);
+      planes.forEach((el) => {
         const d = +el.dataset.depth;
-        const k = reduced ? 1 : easeOut(clamp((t - introStart - i * 110) / 1300));
-        const sc = 1 + ep * Math.pow(d, 1.6) * 1.5;
-        const tx = -mouse.x * d * 46;
-        const ty = -mouse.y * d * 26 - ep * d * vh * .32 + (1 - k) * (40 + d * 160);
-        const rx = (1 - k) * 62;
-        el.style.transform = `translate3d(${tx.toFixed(2)}px,${ty.toFixed(2)}px,0) rotateX(${rx.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
-        el.style.opacity = k;
+        const tx = -mouse.x * d * 40;
+        const ty = hy * (.46 - d * .76) - mouse.y * d * 22;
+        el.style.transform = `translate3d(${tx.toFixed(2)}px,${ty.toFixed(2)}px,0)`;
       });
-      const pk = reduced ? 1 : easeOut(clamp((t - introStart - 900) / 1100));
-      plaque.style.transform = `translate(-50%,-50%) translate3d(${(-mouse.x * 14).toFixed(2)}px,${(-mouse.y * 10 - p * vh * .45 + (1 - pk) * 50).toFixed(2)}px,0) scale(${(1 - p * .12 - (1 - pk) * .06).toFixed(4)})`;
-      plaque.style.opacity = Math.min(pk, clamp(1 - p * 2.4));
-      cue.style.opacity = Math.min(pk, clamp(1 - p * 8));
-      // carpet: idle loop in the sky, then swoops past the camera as you scroll
-      const ck = reduced ? 1 : easeOut(clamp((t - introStart - 600) / 1600));
+      const pk = reduced ? 1 : (introK.plaque || 0);
+      plaque.style.transform = `translate(-50%,-50%) translate3d(${(-mouse.x * 12).toFixed(2)}px,${(-mouse.y * 8 + hy * .1 + (1 - pk) * 36).toFixed(2)}px,0) scale(${(.9 + .1 * pk).toFixed(4)})`;
+      plaque.style.opacity = pk.toFixed(3);
+      // carpet: flies in from the right edge, then hovers beside the palace
+      const ck = reduced ? 1 : (introK.carpet || 0);
       const ts = t * .001;
-      const bx = vw * (.6 + .16 * Math.sin(ts * .22)) + (1 - ck) * vw * .5;
-      const by = vh * (.2 + .035 * Math.sin(ts * .7)) + Math.sin(ts * 1.7) * 4;
-      const cx = lerp(bx, -vw * .25, ep), cy = lerp(by, vh * .55, ep);
-      const cs = 1 + ep * 2.2;
-      const flip = Math.cos(ts * .22) > 0 ? -1 : 1; // face the direction of travel
-      heroCarpet.style.transform = `translate3d(${(cx - mouse.x * 24).toFixed(1)}px,${(cy - mouse.y * 14).toFixed(1)}px,0) rotate(${(Math.sin(ts * .9) * 3 - ep * 10).toFixed(2)}deg) scale(${(cs * (p > .02 ? 1 : flip)).toFixed(3)},${cs.toFixed(3)})`;
-      heroCarpet.style.opacity = ck;
+      const bx = vw * (.72 + .025 * Math.sin(ts * .35)) + (1 - ck) * vw * .48;
+      const by = vh * (.25 + .018 * Math.sin(ts * .6)) - (1 - ck) * vh * .1 + hy * .2;
+      heroCarpet.style.transform = `translate3d(${(bx - mouse.x * 26).toFixed(1)}px,${(by - mouse.y * 14).toFixed(1)}px,0) rotate(${(Math.sin(ts * .9) * 2.5 - (1 - ck) * 8).toFixed(2)}deg)`;
+      heroCarpet.style.opacity = Math.min(1, ck * 1.6).toFixed(3);
       drawSky(t); drawDust(t);
     }
 
-    // --- about diorama: pieces fly in from their edges, then drift ---
-    if (visible.has(aboutSec)) {
+    // --- about diorama: pieces drift with scroll and mouse (their entrance is a CSS transition) ---
+    if (visible.has(aboutSec) && !reduced) {
       const r = aboutSec.getBoundingClientRect();
-      const p = reduced ? 1 : clamp((vh - r.top) / (vh * 1.05));
       const off = r.top + Math.min(r.height, vh) / 2 - vh / 2;
-      pieces.forEach((el, i) => {
-        const e = reduced ? 1 : easeOut(clamp(p * 1.25 - i * .07));
-        const [fx, fy] = el._from;
-        const d = reduced ? 0 : +el.dataset.drift;
-        const tx = (1 - e) * fx * vw / 100 - mouse.x * d * 260;
-        const ty = (1 - e) * fy * vh / 100 + off * d - mouse.y * d * 120;
-        el.style.transform = `translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,0) rotate(${((1 - e) * (el.dataset.rot ? +el.dataset.rot : fx > 0 ? 6 : -6)).toFixed(2)}deg)`;
-        el.style.opacity = Math.min(1, e * 1.4) * (el._op || 1);
+      pieces.forEach((el) => {
+        const d = +el.dataset.drift;
+        el.style.transform = `translate3d(${(-mouse.x * d * 220).toFixed(1)}px,${(off * d - mouse.y * d * 100).toFixed(1)}px,0)`;
       });
-      edges.forEach((el, i) => { el.style.translate = `0 ${reduced ? 0 : (r.top * (i ? .1 : .14)).toFixed(1)}px`; });
     }
 
     // --- generic parallax ---

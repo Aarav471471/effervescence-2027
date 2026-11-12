@@ -117,9 +117,9 @@ button { font: inherit; cursor: pointer; }
 /* ==========================================================================
    HERO
    ========================================================================== */
-.hero { position: relative; height: 240vh; background: var(--night); }
+.hero { position: relative; height: 100vh; height: 100svh; background: var(--night); }
 .hero__stage {
-  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+  position: relative; height: 100%; overflow: hidden;
   background: radial-gradient(120% 80% at 60% 10%, #2a3a95 0%, #17225e 45%, #0c1440 100%);
   perspective: 1200px;
 }
@@ -254,19 +254,11 @@ button { font: inherit; cursor: pointer; }
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background:
     radial-gradient(60% 40% at 72% 28%, rgba(255, 214, 140, .35), transparent 70%),
-    radial-gradient(120% 70% at 50% 40%, transparent 55%, rgba(150, 88, 40, .18));
+    radial-gradient(130% 100% at 50% 0%, transparent 60%, rgba(150, 88, 40, .16));
 }
-/* cream cloud bank swallowing the bottom of the hero */
-/* the painting's right side is cut by its frame, so the plain copy sits flush right
-   and the mirrored copy flush left; a third, side-faded copy fills the middle */
-.about__edge {
-  position: absolute; z-index: 6; top: 0; right: -3%; width: 66%;
-  transform: translateY(-62%); pointer-events: none;
-}
-.about__edge--flip { right: auto; left: -3%; width: 64%; transform: translateY(-56%) scaleX(-1); }
 .about__seam { /* scalloped parchment band hiding the hero/about seam under the painted clouds */
-  position: absolute; z-index: 4; left: 0; right: 0; top: 0; height: clamp(90px, 9vw, 140px); transform: translateY(-62%);
-  background: #f1dcb4 url(../assets/parchment.webp) 0 0 / 420px; pointer-events: none;
+  position: absolute; z-index: 4; left: 0; right: 0; top: 0; height: clamp(90px, 9vw, 140px); transform: translateY(calc(-100% + 2px));
+  background: #f1dcb4 url(../assets/parchment.webp) 0 100% / 420px; /* tile ends exactly where the About tile starts */ pointer-events: none;
   -webkit-mask: radial-gradient(circle at 50% 100%, #000 69%, transparent 70%) 0 0 / clamp(90px, 9vw, 150px) 100% repeat-x,
                 radial-gradient(circle at 50% 100%, #000 69%, transparent 70%) clamp(45px, 4.5vw, 75px) 30% / clamp(120px, 12vw, 200px) 100% repeat-x,
                 linear-gradient(#000, #000) 0 100% / 100% 45% no-repeat;
@@ -275,16 +267,16 @@ button { font: inherit; cursor: pointer; }
                 linear-gradient(#000, #000) 0 100% / 100% 45% no-repeat;
   filter: drop-shadow(0 -2px 0 #d9a648);
 }
-.about__edge--mid {
-  z-index: 5; right: auto; left: 18%; width: 64%; transform: translateY(-60%);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 25%, #000 70%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 25%, #000 70%, transparent);
-}
 
 .diorama { position: absolute; inset: 0 0 auto; height: var(--stageH); pointer-events: none; z-index: 1; }
-.pc { position: absolute; will-change: transform, opacity; }
+.pc {
+  position: absolute; will-change: transform, opacity;
+  opacity: 0; translate: var(--fx, 0) var(--fy, 0);
+  transition: opacity 1.2s var(--ease-out), translate 1.5s var(--ease-out);
+}
+.pc.in { opacity: var(--op, 1); translate: 0 0; }
 .pc img { width: 100%; height: auto; }
-.pc--skyline { left: 40%; bottom: 17%; width: min(34vw, 520px); opacity: .72; }
+.pc--skyline { left: 40%; bottom: 17%; width: min(34vw, 520px); --op: .72; }
 .pc--pavilion { right: -1%; bottom: 10%; width: min(42vw, 640px); }
 .pavilion__glow {
   position: absolute; inset: 22% 8% 6%; border-radius: 50%;
@@ -426,7 +418,7 @@ button { font: inherit; cursor: pointer; }
   .pillars__row { grid-template-columns: 1fr; gap: 10px; }
   .pillar + .pillar::before { left: 30%; right: 30%; top: 0; bottom: auto; width: auto; height: 10px; translate: 0 -50%; background: url(../assets/divider-ornate.svg) center / contain no-repeat; }
   .pillars__bush { opacity: .5; }
-  .about__edge, .paint-edge { width: 90%; }
+  .paint-edge { width: 90%; }
 }
 
 .marquee { background: var(--ruby-deep); color: var(--gold-light); overflow: hidden; border-block: 2px solid var(--gold); position: relative; z-index: 3; }

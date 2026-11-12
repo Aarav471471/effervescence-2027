@@ -8,8 +8,9 @@
   <meta name="theme-color" content="#101a4a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Gloock&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=11" />
+  <link href="https://fonts.googleapis.com/css2?family=Aladin&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="assets/fonts/KultumRamadhan.woff" as="font" type="font/woff" crossorigin />
+  <link rel="stylesheet" href="css/style.css?v=12" />
   <script>/* honour reduced motion; ?motion=1 forces full motion for demos */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=1/.test(location.search)) document.documentElement.classList.add('rm');</script>
 </head>
@@ -77,6 +78,9 @@
         </div>
         <canvas class="plane plane--dust" data-depth="1.2" aria-hidden="true"></canvas>
 
+      </div>
+      <!-- banner on its own top layer, above the About seam clouds -->
+      <div class="hero-top">
         <div class="plaque" id="plaque">
           <img class="plaque__img" src="assets/plaque.webp" alt="" aria-hidden="true" />
           <div class="plaque__body">
@@ -94,85 +98,68 @@
     </section>
 
     <!-- ============ ABOUT ============ -->
-    <section class="about" id="about">
-      <div class="about__mist" aria-hidden="true"></div>
-      <img class="about__edge about__edge--mid" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
-      <img class="about__edge about__edge--flip" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
-      <img class="about__edge" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
+    <section class="about page" id="about">
+      <!-- 1600 x 1450 design canvas, scaled to the page width (--w) like the reference -->
+      <div class="page-stage">
+        <div class="parchment"></div>
 
-      <!-- painted diorama: each piece fades and rises in as it scrolls into view (data-from = start offset in vw,vh), then drifts (data-drift) -->
-      <div class="diorama" aria-hidden="true">
-        <img class="pc pc--skyline" src="assets/skyline.webp" alt="" data-from="0,5" data-drift="-0.10" loading="lazy" />
-        <div class="pc pc--pavilion" data-from="3,12" data-drift="-0.05">
-          <div class="pavilion__glow"></div>
-          <img src="assets/pavilion.webp" alt="" loading="lazy" />
-          <span class="note" style="--x:32%;--d:0s">♪</span><span class="note" style="--x:46%;--d:1.4s">♫</span><span class="note" style="--x:58%;--d:2.6s">♪</span>
-        </div>
-        <img class="pc pc--pillar" src="assets/pillar.webp" alt="" data-from="-3,0" data-drift="0.04" loading="lazy" />
-        <div class="pc pc--branch" data-from="2,-4" data-drift="0.10">
-          <img src="assets/branch.webp" alt="" loading="lazy" />
-          <div class="petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        </div>
-        <div class="pc pc--sitar" data-from="-3,10" data-drift="0.07">
-          <img src="assets/sitar.webp" alt="" loading="lazy" />
-          <span class="flame" style="left:78%;top:52%"></span>
-        </div>
-        <div class="pc pc--tlantern" data-from="0,8" data-drift="0.12">
-          <img src="assets/table-lantern.webp" alt="" loading="lazy" />
-        </div>
-        <!-- side cloud banks slide in from left and right and settle over the base of the scene -->
-        <div class="pc pc--cloud pc--cloud-l" data-from="-14,8" data-drift="0.05">
-          <img src="assets/cloudbank-cream.webp" alt="" loading="lazy" />
-        </div>
-        <div class="pc pc--cloud pc--cloud-r" data-from="14,8" data-drift="0.03">
-          <img src="assets/cloudbank-cream.webp" alt="" loading="lazy" />
-        </div>
-      </div>
+        <!-- background scenery -->
+        <div class="pl city" data-anim="fade" style="--d:.2s" aria-hidden="true"><img src="assets/skyline.webp" alt="" /></div>
+        <div class="pl pavilion" data-anim="right" style="--d:.5s" aria-hidden="true"><div class="pavilion__glow"></div><img src="assets/pavilion.webp" alt="" /></div>
+        <div class="pl peach" data-anim="up" style="--d:.3s" aria-hidden="true"><img src="assets/cloudbank-cream.webp" alt="" /></div>
 
-      <div class="about__inner wrap">
-        <div class="about__text">
-          <p class="eyebrow-orn reveal"><img src="assets/divider-eyebrow.svg" alt="" aria-hidden="true" /><span>About the Festival</span></p>
-          <h2 class="h2 about__title split">A Celebration of Culture, Creativity and Community</h2>
-          <img class="about__rule reveal" src="assets/divider-rule-short.svg" alt="" aria-hidden="true" />
-          <p class="lede reveal">Effervescence is IIIT Allahabad’s annual cultural festival, a platform for art, music, dance, literature and a wide spectrum of student-led events. For three nights the campus turns into a city of lanterns.</p>
-          <dl class="stats reveal">
-            <div><dt data-count="3">0</dt><dd>Nights</dd></div>
-            <div><dt data-count="40" data-suffix="+">0</dt><dd>Events</dd></div>
-            <div><dt data-count="12" data-suffix="k+">0</dt><dd>Footfall</dd></div>
-          </dl>
-        </div>
-      </div>
+        <!-- frame pieces -->
+        <div class="pl arch" data-anim="left" style="--d:.7s" aria-hidden="true"><img src="assets/pillar.webp" alt="" /></div>
+        <div class="pl branch" data-anim="down" style="--d:.9s" aria-hidden="true"><div class="sway-branch"><img src="assets/branch.webp" alt="" /></div></div>
+        <div class="pl instrument" data-anim="up" style="--d:.6s" aria-hidden="true"><img src="assets/sitar.webp" alt="" /></div>
 
-      <!-- three pillars -->
-      <div class="pillars">
-        <img class="pillars__bush pillars__bush--l" src="assets/bush-l.webp" alt="" aria-hidden="true" data-speed="0.08" loading="lazy" />
-        <img class="pillars__bush pillars__bush--r" src="assets/bush-r.webp" alt="" aria-hidden="true" data-speed="0.12" loading="lazy" />
-        <div class="wrap pillars__row">
-          <a class="pillar reveal" href="#events" style="--i:0">
-            <span class="pillar__icon"><img src="assets/icons/icon-theatre-masks.svg" alt="" /></span>
+        <!-- about text -->
+        <div class="pl about-text">
+          <p class="kicker" data-anim="up" style="--d:.2s">About the festival</p>
+          <h2 data-anim="up" style="--d:.35s">A Celebration of Culture, Creativity and Community</h2>
+          <span class="rule" data-anim="grow" style="--d:.6s"></span>
+          <p class="body" data-anim="up" style="--d:.7s">Effervescence is IIIT Allahabad&rsquo;s annual cultural festival, a platform for art, music, dance, literature and a wide spectrum of student-led events.</p>
+        </div>
+
+        <!-- highlights -->
+        <div class="pl features">
+          <a class="feature" href="#events" data-anim="up" style="--d:0s">
+            <img src="assets/icons/icon-theatre-masks.svg" alt="" />
             <h3>Showcases</h3>
             <p>Performances, plays and stage productions</p>
           </a>
-          <a class="pillar reveal" href="#events" style="--i:1">
-            <span class="pillar__icon"><img src="assets/icons/icon-music-note.svg" alt="" /></span>
+          <span class="divider" data-anim="grow-y" style="--d:.2s"></span>
+          <a class="feature" href="#events" data-anim="up" style="--d:.2s">
+            <img src="assets/icons/icon-music-note.svg" alt="" />
             <h3>Competitions</h3>
             <p>Events across music, dance, literature and fine arts</p>
           </a>
-          <a class="pillar reveal" href="#map" style="--i:2">
-            <span class="pillar__icon"><img src="assets/icons/icon-community.svg" alt="" /></span>
+          <span class="divider" data-anim="grow-y" style="--d:.4s"></span>
+          <a class="feature" href="#map" data-anim="up" style="--d:.4s">
+            <img src="assets/icons/icon-community.svg" alt="" />
             <h3>Campus Life</h3>
             <p>A festival for and by the IIIT Allahabad community</p>
           </a>
         </div>
-        <img class="pillars__strip" src="assets/cloudstrip.webp" alt="" aria-hidden="true" loading="lazy" />
+
+        <!-- foreground -->
+        <div class="pl flowers-l" data-anim="left" style="--d:.1s" aria-hidden="true"><div class="sway-flower"><img src="assets/bush-l.webp" alt="" /></div></div>
+        <div class="pl flowers-r" data-anim="right" style="--d:.2s" aria-hidden="true"><div class="sway-flower r"><img src="assets/bush-r.webp" alt="" /></div></div>
+        <div class="pl clouds-strip" data-anim="up" style="--d:0s" aria-hidden="true"><img src="assets/cloudstrip.webp" alt="" /></div>
+
+        <!-- side clouds straddling the seam with the hero (tails meet in the middle) -->
+        <div class="pl seam-cloud sc-m" data-anim="fade" style="--d:.1s" aria-hidden="true"><img src="assets/cloudbank-cream.webp" alt="" /></div>
+        <div class="pl seam-cloud sc-l" data-anim="left" style="--d:0s" aria-hidden="true"><img src="assets/cloudbank-cream.webp" alt="" /></div>
+        <div class="pl seam-cloud sc-r" data-anim="right" style="--d:0s" aria-hidden="true"><img src="assets/cloudbank-cream.webp" alt="" /></div>
       </div>
+    </section>
       <div class="marquee" aria-hidden="true">
         <div class="marquee__track">
           <span>Music</span><b>✦</b><span>Dance</span><b>✦</b><span>Dramatics</span><b>✦</b><span>Literature</span><b>✦</b><span>Fine Arts</span><b>✦</b><span>Pronites</span><b>✦</b><span>Bazaar</span><b>✦</b>
           <span>Music</span><b>✦</b><span>Dance</span><b>✦</b><span>Dramatics</span><b>✦</b><span>Literature</span><b>✦</b><span>Fine Arts</span><b>✦</b><span>Pronites</span><b>✦</b><span>Bazaar</span><b>✦</b>
         </div>
       </div>
-    </section>
+
 
     <!-- ============ EVENTS ============ -->
     <section class="events" id="events">
@@ -396,6 +383,6 @@
 
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="js/scene.js?v=8"></script>
-  <script src="js/main.js?v=11"></script>
+  <script src="js/main.js?v=12"></script>
 </body>
 </html>

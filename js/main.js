@@ -117,10 +117,6 @@
   /* ------------------------------------------------------------------
      4. Reveal-on-scroll + counters + curtains + map unroll
      ------------------------------------------------------------------ */
-  $$('.split').forEach((el) => {
-    let i = 0;
-    el.innerHTML = el.textContent.trim().split(/\s+/).map((w) => `<span class="w"><span style="--i:${i++}">${w}</span></span>`).join(' ');
-  });
   const revealIO = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
@@ -129,7 +125,7 @@
       $$('[data-count]', en.target).forEach(countUp);
     });
   }, { threshold: .18 });
-  $$('.reveal, .split').forEach((el) => revealIO.observe(el));
+  $$('.reveal').forEach((el) => revealIO.observe(el));
   function countUp(el) {
     const end = +el.dataset.count, suf = el.dataset.suffix || '';
     if (reduced) { el.textContent = end + suf; return; }
@@ -140,6 +136,37 @@
       if (k < 1) requestAnimationFrame(step);
     })(t0);
   }
+
+  /* ------------------------------------------------------------------
+     About: 1600px design canvas scaled to the page width, [data-anim] reveals
+     (uses each element's layout position, ignoring its start transform,
+     so pieces that slide in from off-screen still trigger)
+     ------------------------------------------------------------------ */
+  const DESK = () => document.documentElement.clientWidth >= 900;
+  function fitPage() { document.documentElement.style.setProperty('--w', document.documentElement.clientWidth / 1600); }
+  fitPage();
+  let pendingAnim = $$('[data-anim]');
+  function layoutTop(el) {
+    let y = 0;
+    while (el && !el.classList.contains('page-stage')) { y += el.offsetTop; el = el.offsetParent; }
+    return y;
+  }
+  function revealAnim() {
+    const w = DESK() ? document.documentElement.clientWidth / 1600 : 1;
+    pendingAnim = pendingAnim.filter((el) => {
+      const page = el.closest('.page');
+      if (!page) return false;
+      const pageTop = page.getBoundingClientRect().top;
+      // seam clouds hang above the section into the hero, so trigger them off the section's own top edge
+      const y = el.classList.contains('seam-cloud') ? pageTop : pageTop + layoutTop(el) * w;
+      if (reduced || y < innerHeight * .9) { el.classList.add('in'); return false; }
+      return true;
+    });
+    if (!pendingAnim.length) removeEventListener('scroll', revealAnim);
+  }
+  addEventListener('scroll', revealAnim, { passive: true });
+  addEventListener('resize', () => { fitPage(); revealAnim(); });
+  revealAnim();
 
   /* ------------------------------------------------------------------
      5. Events
@@ -412,17 +439,7 @@
   if (finePointer && !reduced) {
     addEventListener('pointermove', (e) => { mouse.tx = e.clientX / vw - .5; mouse.ty = e.clientY / vh - .5; }, { passive: true });
   }
-  const aboutSec = $('#about'), pieces = $$('#about .pc'), edges = $$('.about__edge');
-  // About pieces fade and rise into place as each one scrolls into view (CSS transition), then drift with scroll
-  const pieceIO = new IntersectionObserver((entries) => entries.forEach((en) => {
-    if (!en.isIntersecting) return;
-    en.target.classList.add('in'); pieceIO.unobserve(en.target);
-  }), { rootMargin: '0px 0px -10% 0px', threshold: .12 });
-  pieces.forEach((el) => {
-    const [fx, fy] = (el.dataset.from || '0,0').split(',').map(Number);
-    el.style.setProperty('--fx', fx + 'vw'); el.style.setProperty('--fy', fy + 'vh');
-    if (reduced) el.classList.add('in'); else pieceIO.observe(el);
-  });
+  const aboutSec = $('#about');
   const visible = new Set();
   const visIO = new IntersectionObserver((entries) => entries.forEach((en) => (en.isIntersecting ? visible.add(en.target) : visible.delete(en.target))), { rootMargin: '20% 0px' });
   [hero, journey, wishSec, aboutSec].forEach((el) => visIO.observe(el));
@@ -522,25 +539,6 @@
       heroCarpet.style.transform = `translate3d(${(bx - mouse.x * 26).toFixed(1)}px,${(by - mouse.y * 14).toFixed(1)}px,0) rotate(${(Math.sin(ts * .9) * 2.5 - (1 - ck) * 8).toFixed(2)}deg)`;
       heroCarpet.style.opacity = Math.min(1, ck * 1.6).toFixed(3);
       drawSky(t); drawDust(t);
-    }
-
-    // --- hero/About cloud edge: copies drift at slightly different rates as it passes ---
-    if (!reduced && (visible.has(hero) || visible.has(aboutSec))) {
-      const top = aboutSec.getBoundingClientRect().top;
-      if (top > -vh * .5 && top < vh * 1.5) {
-        const k = (top - vh) * .06;
-        edges.forEach((el, i) => { el.style.translate = `${(-mouse.x * (8 + i * 6)).toFixed(1)}px ${(k * (1 + i * .35)).toFixed(1)}px`; });
-      }
-    }
-
-    // --- about diorama: pieces drift with scroll and mouse (their entrance is a CSS transition) ---
-    if (visible.has(aboutSec) && !reduced) {
-      const r = aboutSec.getBoundingClientRect();
-      const off = r.top + Math.min(r.height, vh) / 2 - vh / 2;
-      pieces.forEach((el) => {
-        const d = +el.dataset.drift;
-        el.style.transform = `translate3d(${(-mouse.x * d * 220).toFixed(1)}px,${(off * d - mouse.y * d * 100).toFixed(1)}px,0)`;
-      });
     }
 
     // --- generic parallax ---

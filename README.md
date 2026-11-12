@@ -27,11 +27,23 @@ tagged with `data-depth` (0 = far sky, 1 = foreground arch). `js/main.js` moves 
 Smooth scrolling is Lenis (`lerp: .075`). Any element with `data-speed="0.1"` gets vertical scroll parallax
 relative to its parent. The schedule is a pinned horizontal scroll; the carpet follows `#flightPath`.
 
-The **About** section is a second painted diorama (pillar arch, blossom branch, music pavilion, skyline, sitar,
-table lantern, side cloud banks). Each `.pc` piece fades and rises into place as it scrolls into view, starting
-from its `data-from="x,y"` offset (vw, vh), then drifts by `data-drift` with scroll and mouse. A painted cream cloud bank
-edge carries the hero into About, and the three pillars (Showcases / Competitions / Campus Life)
-sit between flowering bushes above a cloud strip.
+The **About** section is built on a 1600 x 1450 design canvas (`.page-stage`) scaled to the page width
+(`--w`), with every piece placed in design pixels. Each piece has `data-anim` (`up`, `down`, `left`,
+`right`, `fade`, `grow`, `grow-y`) and a `--d` delay; it animates in when its layout position comes within
+90% of the screen height. The three `seam-cloud`s straddle the join with the hero and slide in from the
+sides. The plaque sits on its own `.hero-top` layer so those clouds never cover it. Below 900px wide the
+canvas is replaced by a stacked layout so the text stays readable.
+
+## Fonts
+
+- Headings, nav and labels: **Kultum Ramadhan** (`assets/fonts/KultumRamadhan.woff`)
+- Body text: **Aladin** (Google Fonts)
+
+Both are set once as `--display` / `--caps` / `--body` in `:root` in `css/style.css`.
+
+**Licence:** the Kultum Ramadhan file is the free *demo* version, which its author licenses for personal
+use only. Buy a licence from sronstudio.com before using it on a public or commercial site, or swap
+`--display` and `--caps` to another face.
 
 ## Editing content
 

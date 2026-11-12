@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Gloock&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=10" />
+  <link rel="stylesheet" href="css/style.css?v=11" />
   <script>/* honour reduced motion; ?motion=1 forces full motion for demos */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=1/.test(location.search)) document.documentElement.classList.add('rm');</script>
 </head>
@@ -95,7 +95,10 @@
 
     <!-- ============ ABOUT ============ -->
     <section class="about" id="about">
-      <div class="about__seam" aria-hidden="true"></div>
+      <div class="about__mist" aria-hidden="true"></div>
+      <img class="about__edge about__edge--mid" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
+      <img class="about__edge about__edge--flip" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
+      <img class="about__edge" src="assets/cloudbank-cream.webp" alt="" aria-hidden="true" />
 
       <!-- painted diorama: each piece fades and rises in as it scrolls into view (data-from = start offset in vw,vh), then drifts (data-drift) -->
       <div class="diorama" aria-hidden="true">
@@ -393,6 +396,6 @@
 
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="js/scene.js?v=8"></script>
-  <script src="js/main.js?v=10"></script>
+  <script src="js/main.js?v=11"></script>
 </body>
 </html>

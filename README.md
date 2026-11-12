@@ -29,8 +29,8 @@ relative to its parent. The schedule is a pinned horizontal scroll; the carpet f
 
 The **About** section is a second painted diorama (pillar arch, blossom branch, music pavilion, skyline, sitar,
 table lantern, side cloud banks). Each `.pc` piece fades and rises into place as it scrolls into view, starting
-from its `data-from="x,y"` offset (vw, vh), then drifts by `data-drift` with scroll and mouse. A scalloped
-parchment edge carries the hero into About, and the three pillars (Showcases / Competitions / Campus Life)
+from its `data-from="x,y"` offset (vw, vh), then drifts by `data-drift` with scroll and mouse. A painted cream cloud bank
+edge carries the hero into About, and the three pillars (Showcases / Competitions / Campus Life)
 sit between flowering bushes above a cloud strip.
 
 ## Editing content

@@ -412,7 +412,7 @@
   if (finePointer && !reduced) {
     addEventListener('pointermove', (e) => { mouse.tx = e.clientX / vw - .5; mouse.ty = e.clientY / vh - .5; }, { passive: true });
   }
-  const aboutSec = $('#about'), pieces = $$('#about .pc');
+  const aboutSec = $('#about'), pieces = $$('#about .pc'), edges = $$('.about__edge');
   // About pieces fade and rise into place as each one scrolls into view (CSS transition), then drift with scroll
   const pieceIO = new IntersectionObserver((entries) => entries.forEach((en) => {
     if (!en.isIntersecting) return;
@@ -522,6 +522,15 @@
       heroCarpet.style.transform = `translate3d(${(bx - mouse.x * 26).toFixed(1)}px,${(by - mouse.y * 14).toFixed(1)}px,0) rotate(${(Math.sin(ts * .9) * 2.5 - (1 - ck) * 8).toFixed(2)}deg)`;
       heroCarpet.style.opacity = Math.min(1, ck * 1.6).toFixed(3);
       drawSky(t); drawDust(t);
+    }
+
+    // --- hero/About cloud edge: copies drift at slightly different rates as it passes ---
+    if (!reduced && (visible.has(hero) || visible.has(aboutSec))) {
+      const top = aboutSec.getBoundingClientRect().top;
+      if (top > -vh * .5 && top < vh * 1.5) {
+        const k = (top - vh) * .06;
+        edges.forEach((el, i) => { el.style.translate = `${(-mouse.x * (8 + i * 6)).toFixed(1)}px ${(k * (1 + i * .35)).toFixed(1)}px`; });
+      }
     }
 
     // --- about diorama: pieces drift with scroll and mouse (their entrance is a CSS transition) ---

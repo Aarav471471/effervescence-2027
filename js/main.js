@@ -525,7 +525,7 @@
       planes.forEach((el) => {
         const d = +el.dataset.depth;
         const tx = -mouse.x * d * 40;
-        const ty = hy * (.46 - d * .76) - mouse.y * d * 22;
+        const ty = hy * +el.dataset.scroll - mouse.y * d * 22;
         el.style.transform = `translate3d(${tx.toFixed(2)}px,${ty.toFixed(2)}px,0)`;
       });
       const pk = reduced ? 1 : (introK.plaque || 0);
@@ -535,7 +535,7 @@
       const ck = reduced ? 1 : (introK.carpet || 0);
       const ts = t * .001;
       const bx = vw * (.72 + .025 * Math.sin(ts * .35)) + (1 - ck) * vw * .48;
-      const by = vh * (.25 + .018 * Math.sin(ts * .6)) - (1 - ck) * vh * .1 + hy * .2;
+      const by = vh * (.25 + .018 * Math.sin(ts * .6)) - (1 - ck) * vh * .1 + hy * .1;
       heroCarpet.style.transform = `translate3d(${(bx - mouse.x * 26).toFixed(1)}px,${(by - mouse.y * 14).toFixed(1)}px,0) rotate(${(Math.sin(ts * .9) * 2.5 - (1 - ck) * 8).toFixed(2)}deg)`;
       heroCarpet.style.opacity = Math.min(1, ck * 1.6).toFixed(3);
       drawSky(t); drawDust(t);

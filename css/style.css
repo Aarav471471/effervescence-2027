@@ -157,8 +157,9 @@ button { font: inherit; cursor: pointer; }
   left: 50%; bottom: 25%; width: max(66vw, 112vh); transform: translateX(-50%);
   filter: drop-shadow(0 0 60px rgba(255, 190, 90, .28));
 }
-.lyr--cloud-mid { left: 50%; bottom: -8%; width: max(118vw, 170vh); transform: translateX(-50%); }
-.lyr--cloud-front { left: 50%; bottom: -36%; width: max(140vw, 200vh); transform: translateX(-46%) scaleX(-1); }
+/* cloud edges anchored at 67% / 82% of the screen height; the painted edge is 8.47% of the image width down */
+.lyr--cloud-mid { left: 50%; top: calc(4vh + 67vh - max(112vw, 160vh) * .0847); width: max(112vw, 160vh); transform: translateX(-50%); }
+.lyr--cloud-front { left: 50%; top: calc(4vh + 82vh - max(132vw, 190vh) * .0847); width: max(132vw, 190vh); transform: translateX(-46%) scaleX(-1); }
 .lyr--palms-l { left: -7%; bottom: -5%; width: clamp(240px, 31vw, 560px); }
 .lyr--palms-r { right: -7%; bottom: -7%; width: clamp(220px, 28vw, 520px); transform: scaleX(-1); }
 .lyr--arch { top: 0; left: 50%; width: max(104vw, 150vh); transform: translateX(-50%); filter: drop-shadow(0 14px 18px rgba(6, 10, 40, .5)); }
@@ -650,7 +651,6 @@ button { font: inherit; cursor: pointer; }
   .plaque .eyebrow { white-space: nowrap; letter-spacing: .12em; }
   .plaque .eyebrow::before, .plaque .eyebrow::after { display: none; }
   .lyr--palace { width: max(70vw, 96vh); bottom: 31%; }
-  .lyr--cloud-mid { bottom: -2%; }
 
   .stats { gap: 16px; }
   .frames { grid-template-columns: 1fr; }
